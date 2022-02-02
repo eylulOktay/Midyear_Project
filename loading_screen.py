@@ -43,7 +43,7 @@ class MyWindow(arcade.Window):
                 "You should have a look on the new GUI features "
                 "coming up with arcade 2.6!"
             ),
-            callback=self.on_message_box_close,
+            callback=self.on_message_box_close, # change this to lead to the new school screen
             buttons=["Ok", "Cancel"]
         )
 
