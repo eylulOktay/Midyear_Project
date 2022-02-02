@@ -43,7 +43,7 @@ class MyGame(arcade.Window):
 
         # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
-        
+        self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
         
 
         # Set background color
@@ -60,7 +60,9 @@ class MyGame(arcade.Window):
         # Clear screen
         self.clear()
         # Draw the rectangle
+        self.teacher.draw()
         self.lower_frame.draw()
+        
 
 
 def main():
