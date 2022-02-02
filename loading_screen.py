@@ -25,13 +25,28 @@ class MyWindow(arcade.Window):
 
         # Add a hook to run when we click on the button.
         open_message_box_button.on_click = self.on_click_open
+        
+        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
+        self.v_box.add(start_button.with_space_around(bottom=20))
+
         # Create a widget to hold the v_box widget, that will center the buttons
         self.manager.add(
             arcade.gui.UIAnchorWidget(
                 anchor_x="center_x",
                 anchor_y="center_y",
-                child=self.v_box)
-        )
+                child=self.v_box))
+        
+        text = 'Welcome to the BCA Freshman loading Sim!'
+        ui_text_label = arcade.gui.UITextArea(text=text,
+                                              width=450,
+                                              height=60,
+                                              font_size=12,
+                                              font_name="Arial")
+
+        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
+        
+
+        self.v_box.add(ui_text_label.with_space_around(bottom=20))
 
     def on_click_open(self, event):
         # The code in this function is run when we click the ok button.
