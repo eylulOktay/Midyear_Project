@@ -1,5 +1,6 @@
 import arcade
 import arcade.gui
+from basic_GUI import *
 
 class LoadingView(arcade.View):
 
@@ -43,7 +44,3 @@ class LoadingView(arcade.View):
     def on_draw(self):
         self.clear()
         self.manager.draw()
-
-
-window = LoadingView()
-arcade.run()
