@@ -1,10 +1,10 @@
 import arcade
 import arcade.gui
 
-class LoadingView(arcade.Window):
+class LoadingView(arcade.View):
 
     def __init__(self):
-        super().__init__(800,600,'BCA Sim...Booting Up', resizable = False)
+        super().__init__(800,600,'BCA Sim...Booting Up')
         arcade.set_background_color(arcade.color.ALMOND)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
@@ -36,7 +36,9 @@ class LoadingView(arcade.Window):
         )
     
     def on_click_start(self, event:arcade.gui.UIOnClickEvent):
-        arcade.exit()
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
     
     def on_draw(self):
         self.clear()
