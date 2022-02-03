@@ -1,76 +1,47 @@
-"""
-Example code showing how to use the OKMessageBox
-"""
 import arcade
 import arcade.gui
 
-
-class MyWindow(arcade.Window):
+class LoadingView(arcade.Window):
 
     def __init__(self):
-        super().__init__(800, 600, "OKMessageBox Example", resizable=True)
-        arcade.set_background_color(arcade.color.FLUORESCENT_ORANGE)
-
-        # Create and enable the UIManager
+        super().__init__(800,600,'BCA Sim...Booting Up', resizable = False)
+        arcade.set_background_color(arcade.color.ALMOND)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
-        # Create a box group to align the 'open' button in the center
+        # BoxGroup Layout
         self.v_box = arcade.gui.UIBoxLayout()
 
-        # Create a button. We'll click on this to open our window.
-        # Add it v_box for positioning.
-        open_message_box_button = arcade.gui.UIFlatButton(text="Open", width=200)
-        self.v_box.add(open_message_box_button)
+        # Create a text label
+        ui_text_label = arcade.gui.UITextArea(text="BCA ATCS Freshman Sim", x = 200, y = 500,
+                                              width=450,
+                                              height=40,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+        self.manager.add(ui_text_label.with_space_around(bottom=0))
 
-        # Add a hook to run when we click on the button.
-        open_message_box_button.on_click = self.on_click_open
-        
-        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
-        self.v_box.add(start_button.with_space_around(bottom=20))
+        # Create a UITextureButton
+        texture = arcade.load_texture(":resources:onscreen_controls/flat_dark/play.png")
+        ui_texture_button = arcade.gui.UITextureButton(texture=texture)
+        # --- Method 2 for handling click events,
+        # assign self.on_click_start as callback
+        ui_texture_button.on_click = self.on_click_start
+        self.v_box.add(ui_texture_button.with_space_around(bottom=20))
 
-        # Create a widget to hold the v_box widget, that will center the buttons
         self.manager.add(
             arcade.gui.UIAnchorWidget(
                 anchor_x="center_x",
                 anchor_y="center_y",
-                child=self.v_box))
-        
-        text = 'Welcome to the BCA Freshman loading Sim!'
-        ui_text_label = arcade.gui.UITextArea(text=text,
-                                              width=450,
-                                              height=60,
-                                              font_size=12,
-                                              font_name="Arial")
-
-        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
-        
-
-        self.v_box.add(ui_text_label.with_space_around(bottom=20))
-
-    def on_click_open(self, event):
-        # The code in this function is run when we click the ok button.
-        # The code below opens the message box and auto-dismisses it when done.
-        message_box = arcade.gui.UIMessageBox(
-            width=300,
-            height=200,
-            message_text=(
-                "You should have a look on the new GUI features "
-                "coming up with arcade 2.6!"
-            ),
-            callback=self.on_message_box_close, # change this to lead to the new school screen
-            buttons=["Ok", "Cancel"]
+                child=self.v_box)
         )
-
-        self.manager.add(message_box)
-
+    
+    def on_click_start(self, event:arcade.gui.UIOnClickEvent):
+        arcade.exit()
+    
     def on_draw(self):
         self.clear()
         self.manager.draw()
 
-    def on_message_box_close(self, button_text):
-        print(f"User pressed {button_text}.")
 
-
-window = MyWindow()
+window = LoadingView()
 arcade.run()
