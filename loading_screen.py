@@ -21,10 +21,10 @@ class LoadingView(arcade.View):
                                               font_name="Kenney Future")
         self.manager.add(ui_text_label.with_space_around(bottom=0))
 
-        # Create a UITextureButton
+        # UITextureButton
         texture = arcade.load_texture(":resources:onscreen_controls/flat_dark/play.png")
         ui_texture_button = arcade.gui.UITextureButton(texture=texture)
-        # --- Method 2 for handling click events,
+
         # assign self.on_click_start as callback
         ui_texture_button.on_click = self.on_click_start
         self.v_box.add(ui_texture_button.with_space_around(bottom=20))
