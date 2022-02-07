@@ -5,7 +5,7 @@ from basic_GUI import *
 class LoadingView(arcade.View):
 
     def __init__(self):
-        super().__init__(800,400)
+        super().__init__()
         arcade.set_background_color(arcade.color.ALMOND)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
