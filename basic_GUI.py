@@ -1,5 +1,7 @@
 import arcade
+import arcade.gui
 
+from griuehoipoifer import GameView
 # --- Set up the constants
 
 # Size of the screen
@@ -40,12 +42,19 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
+        # --- Required for all code that uses UI element,
+        # a UIManager to handle the UI.
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+        self.v_box = arcade.gui.UIBoxLayout()
 
         # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
         self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
+        self.stats_button = arcade.gui.UIFlatButton(text="Start Game",
+                                               width=200)
+        self.stats_button.add(self.stats_button.with_space_around(bottom=10))
         
-
         # Set background color
         arcade.set_background_color(BACKGROUND_COLOR)
 
@@ -62,11 +71,12 @@ class GameView(arcade.View):
         # Draw the rectangle
         self.teacher.draw()
         self.lower_frame.draw()
+        self.stats_button.draw()
         
-
 
 def main():
     """ Main function """
+
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     start_view = GameView()
     window.show_view(start_view)
