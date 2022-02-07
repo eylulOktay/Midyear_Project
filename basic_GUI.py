@@ -1,7 +1,7 @@
 import arcade
 import arcade.gui
 
-from griuehoipoifer import GameView
+# from griuehoipoifer import GameView
 # --- Set up the constants
 
 # Size of the screen
@@ -48,15 +48,26 @@ class GameView(arcade.View):
         self.manager.enable()
         self.v_box = arcade.gui.UIBoxLayout()
 
-        # Create our rectangle
+        # # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
         self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
-        self.stats_button = arcade.gui.UIFlatButton(text="Start Game",
+        self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
-        self.stats_button.add(self.stats_button.with_space_around(bottom=10))
+        self.v_box.add(self.stats_button.with_space_around(bottom=10))
+
+       
         
         # Set background color
         arcade.set_background_color(BACKGROUND_COLOR)
+
+                # Create a widget to hold the v_box widget, that will center the buttons
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="right",
+                anchor_y="top",
+                
+                child=self.v_box)
+        )
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
@@ -71,7 +82,8 @@ class GameView(arcade.View):
         # Draw the rectangle
         self.teacher.draw()
         self.lower_frame.draw()
-        self.stats_button.draw()
+        self.manager.draw()
+
         
 
 def main():
