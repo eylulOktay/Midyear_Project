@@ -10,11 +10,6 @@ SCREEN_TITLE = "NAME IN PROGRESS"
 
 # Rectangle info
 
-
-
-BACKGROUND_COLOR = arcade.color.AIR_FORCE_BLUE
-
-
 class Rect:
     """ This class represents our rectangle """
 
@@ -54,10 +49,8 @@ class GameView(arcade.View):
                                                width=200)
         self.v_box.add(self.stats_button.with_space_around(bottom=10))
 
-       
-        
         # Set background color
-        arcade.set_background_color(BACKGROUND_COLOR)
+        arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
 
                 # Create a widget to hold the v_box widget, that will center the buttons
         self.manager.add(
