@@ -56,7 +56,7 @@ class GameView(arcade.View):
         
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
-        self.v_box.add(self.stats_button.with_space_around(bottom=10))
+        self.v_box.add(self.stats_button.with_space_around(top = 10, bottom = 10, right = 10, left =10))
 
         # Set background color
         arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
@@ -106,5 +106,6 @@ class GameView(arcade.View):
 
     def rectangle_appear(self, event):
         print("Make rectangle")
-        self.rectapp = Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.PURPLE_HEART)
+        self.rectapp = Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
         self.rect_list.append(self.rectapp)
+        arcade.draw_text()
