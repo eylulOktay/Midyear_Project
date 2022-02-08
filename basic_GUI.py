@@ -67,6 +67,9 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
+        self.stats_button.on_click = self.rectangle_appear
+
+
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
@@ -83,7 +86,9 @@ class GameView(arcade.View):
         self.lower_frame.draw()
         self.manager.draw()
 
-        
+    def rectangle_appear(self):
+        print("Make rectangle")
+        self.rectapp = Rect(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.PURPLE_HEART)
 
 
 # def main():
