@@ -36,6 +36,8 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
+        self.color = [200,50,50]
+        self.isGoing = 0
         # --- Required for all code that uses UI element,
         # a UIManager to handle the UI.
         self.manager = arcade.gui.UIManager()
@@ -74,7 +76,21 @@ class GameView(arcade.View):
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
         # Move the rectangle
-        pass
+        if self.isGoing:
+            arcade.set_background_color((self.color[0],self.color[1],self.color[2]))
+            if self.color[self.last_max] > 50:
+                self.color[self.last_max] -=2
+            if self.color[((self.last_max+1) % 3)] <200:
+                self.color[((self.last_max+1) % 3)] += 2
+            else:
+                self.last_max +=1
+                self.last_max %=3
+        
+        
+    def time_passes(self,event):
+        self.isGoing = 1 - self.isGoing
+        print(f"color: {self.color}")
+
 
     def on_draw(self):
         """ Render the screen. """
