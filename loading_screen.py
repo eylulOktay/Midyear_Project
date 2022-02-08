@@ -44,3 +44,8 @@ class LoadingView(arcade.View):
     def on_draw(self):
         self.clear()
         self.manager.draw()
+
+window = arcade.Window(800, 400, "WHATEVER")
+start_view = LoadingView()
+window.show_view(start_view)
+arcade.run()
