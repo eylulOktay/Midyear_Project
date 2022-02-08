@@ -38,7 +38,6 @@ class LoadingView(arcade.View):
     
     def on_click_start(self, event:arcade.gui.UIOnClickEvent):
         game_view = GameView()
-        game_view.setup()
         self.window.show_view(game_view)
     
     def on_draw(self):
