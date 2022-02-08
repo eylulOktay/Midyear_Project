@@ -40,11 +40,18 @@ class GameView(arcade.View):
         # a UIManager to handle the UI.
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
+        self.rect_list = []
+
+
         self.v_box = arcade.gui.UIBoxLayout()
 
         # # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
         self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
+        
+        self.rect_list.append(self.lower_frame)
+        self.rect_list.append(self.teacher)
+        
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
         self.v_box.add(self.stats_button.with_space_around(bottom=10))
@@ -75,10 +82,13 @@ class GameView(arcade.View):
         # Clear screen
         self.clear()
         # Draw the rectangle
-        self.teacher.draw()
-        self.lower_frame.draw()
+        for n in self.rect_list:
+            n.draw()
+        # self.teacher.draw()
+        # self.lower_frame.draw()
         self.manager.draw()
 
-    def rectangle_appear(self):
+    def rectangle_appear(self, event):
         print("Make rectangle")
-        self.rectapp = Rect(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.PURPLE_HEART)
+        self.rectapp = Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.PURPLE_HEART)
+        self.rect_list.append(self.rectapp)
