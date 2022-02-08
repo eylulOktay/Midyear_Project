@@ -3,7 +3,8 @@ class Game():
         self.player = Player(name)
         self.time = 0
         self.scene = 1
-        self.event_list = [0,0,1,1,1,1]
+        self.event_list = [0,0,1,0,0,2]
+        self.teacher_present = False
         
 
     def time_passes(self):
@@ -13,10 +14,11 @@ class Game():
         elif self.event_list[self.time] == 2:
             self.teacher_leave()
         self.student.time_passes()
-    def teacher_appear():
-        pass
-    def teacher_leave():
-        pass
+
+    def teacher_appear(self):
+        self.teacher_present = True
+    def teacher_leave(self):
+        self.teacher_present = False
     
 
 
@@ -26,6 +28,7 @@ class Player():
         self.sleep = 100
         self.happiness = 100
         self.work_ethic = 10
+        self.fun = 10
         self.name = name.strip().capitalize()
     
     def sleep(self, time):
@@ -34,6 +37,11 @@ class Player():
 
     def do_work(self):
         self.work_ethic += 1
+        self.fun -= 5
+    
+    def take_test(self):
+        self.cap()
+        self.grade = int(self.work_ethic*10+self.grade)/2
     
     def play_games(self):
         self.fun += 10
