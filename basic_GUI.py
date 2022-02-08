@@ -82,16 +82,3 @@ class GameView(arcade.View):
     def rectangle_appear(self):
         print("Make rectangle")
         self.rectapp = Rect(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.PURPLE_HEART)
-
-
-# def main():
-#     """ Main function """
-#     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-#     start_view = GameView()
-#     window.show_view(start_view)
-#     arcade.run()
-
-
-
-# if __name__ == "__main__":
-#     main()
