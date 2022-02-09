@@ -32,7 +32,6 @@ class Player():
         self.name = name.strip().capitalize()
     
     def sleep(self, time):
-
         self.sleep = time*12
 
     def do_work(self):
