@@ -2,6 +2,10 @@ import arcade
 import arcade.gui
 from basic_GUI import *
 
+from arcade import load_texture
+from arcade.gui import UIManager
+from arcade.gui.widgets import UITextArea, UIInputText, UITexturePane
+
 class LoadingView(arcade.View):
 
     def __init__(self):
@@ -35,8 +39,37 @@ class LoadingView(arcade.View):
                 anchor_y="center_y",
                 child=self.v_box)
         )
+
+        # instructions = '''
+        # enter stuff here
+        # '''
+
+        # bg_tex = load_texture(":resources:gui_basic_assets/window/grey_panel.png")
+        # text_area = UITextArea(x=100,
+        #                        y=200,
+        #                        width=200,
+        #                        height=300,
+        #                        text=instructions,
+        #                        text_color=(0, 0, 0, 255))
+        # self.manager.add(
+        #     UITexturePane(
+        #         text_area.with_space_around(right=20),
+        #         tex=bg_tex,
+        #         padding=(10, 10, 10, 10)
+        #     )
+        # )
+
+        # self.manager.add(
+        #     UITexturePane(
+        #         UIInputText(x=340, y=200, width=200, height=50, text="Hello"),
+        #         tex=bg_tex,
+        #         padding=(10, 10, 10, 10)
+        #     ))
+        # self.manager.add(
+        #     UIInputText(x=340, y=110, width=200, height=50, text="Hello"),
+        # )
     
-    def on_click_start(self, event:arcade.gui.UIOnClickEvent):
+    def on_click_start(self, event):
         game_view = GameView()
         self.window.show_view(game_view)
     

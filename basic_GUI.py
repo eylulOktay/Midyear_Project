@@ -51,9 +51,6 @@ class GameView(arcade.View):
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
         self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
         
-        self.rect_list.append(self.lower_frame)
-        self.rect_list.append(self.teacher)
-        
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
         self.v_box.add(self.stats_button.with_space_around(top = 10, bottom = 10, right = 10, left =10))
