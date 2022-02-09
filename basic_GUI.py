@@ -66,7 +66,11 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
-        self.stats_button.on_click = lambda event : self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+        def make_stats():
+            self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            
+
+        self.stats_button.on_click = make_stats
 
 
 
@@ -108,8 +112,4 @@ class GameView(arcade.View):
         self.rectapp = Rect(width, height, x, y, color)
         self.rect_list.append(self.rectapp)
 
-    def text_appear(self, event):
-        print("Make text")
-        self.rectapp = Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
-        self.rect_list.append(self.rectapp)
         
