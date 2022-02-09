@@ -36,10 +36,15 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
+        self.color = [200,50,50]
+        self.isGoing = 0
         # --- Required for all code that uses UI element,
         # a UIManager to handle the UI.
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
+        self.rect_list = []
+
+
         self.v_box = arcade.gui.UIBoxLayout()
 
         # # Create our rectangle
@@ -48,7 +53,7 @@ class GameView(arcade.View):
         
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
-        self.v_box.add(self.stats_button.with_space_around(bottom=10))
+        self.v_box.add(self.stats_button.with_space_around(top = 10, bottom = 10, right = 10, left =10))
 
         # Set background color
         arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
@@ -61,11 +66,28 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
+        self.stats_button.on_click = lambda event : self.rectangle_appear(100,100,100,100, arcade.color.PURPLE_HEART)
+
+
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
         # Move the rectangle
-        pass
+        if self.isGoing:
+            arcade.set_background_color((self.color[0],self.color[1],self.color[2]))
+            if self.color[self.last_max] > 50:
+                self.color[self.last_max] -=2
+            if self.color[((self.last_max+1) % 3)] <200:
+                self.color[((self.last_max+1) % 3)] += 2
+            else:
+                self.last_max +=1
+                self.last_max %=3
+        
+        
+    def time_passes(self,event):
+        self.isGoing = 1 - self.isGoing
+        print(f"color: {self.color}")
+
 
     def on_draw(self):
         """ Render the screen. """
@@ -73,21 +95,21 @@ class GameView(arcade.View):
         # Clear screen
         self.clear()
         # Draw the rectangle
-        self.teacher.draw()
-        self.lower_frame.draw()
+        for n in self.rect_list:
+            n.draw()
+        # self.teacher.draw()
+        # self.lower_frame.draw()
+        
         self.manager.draw()
-
         
 
+    def rectangle_appear(self, width, height, x, y, color):
+        print("Make rectangle")
+        self.rectapp = Rect(width, height, x, y, color)
+        self.rect_list.append(self.rectapp)
 
-# def main():
-#     """ Main function """
-#     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-#     start_view = GameView()
-#     window.show_view(start_view)
-#     arcade.run()
-
-
-
-# if __name__ == "__main__":
-#     main()
+    def text_appear(self, event):
+        print("Make text")
+        self.rectapp = Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+        self.rect_list.append(self.rectapp)
+        
