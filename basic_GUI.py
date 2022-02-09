@@ -66,8 +66,11 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
-        def make_stats():
+        def make_stats(event):
             self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            self.okButton = arcade.gui.UIFlatButton(text = "OK", width = 200)
+            self.v_box.add(self.okButton.with_space_around(top = 10, bottom = 200, right = 10, left =0))
+        
             
 
         self.stats_button.on_click = make_stats
@@ -99,10 +102,11 @@ class GameView(arcade.View):
         # Clear screen
         self.clear()
         # Draw the rectangle
+        
+        self.teacher.draw()
+        self.lower_frame.draw()
         for n in self.rect_list:
             n.draw()
-        # self.teacher.draw()
-        # self.lower_frame.draw()
         
         self.manager.draw()
         
