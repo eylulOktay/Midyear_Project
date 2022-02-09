@@ -69,7 +69,7 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
-        self.stats_button.on_click = lambda event : self.rectangle_appear(100,100,100,100, arcade.color.PURPLE_HEART)
+        self.stats_button.on_click = lambda event : self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
 
 
 
