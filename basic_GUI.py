@@ -68,7 +68,7 @@ class GameView(arcade.View):
         )
         def make_stats(event):
             self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
-            self.okButton = arcade.gui.UIFlatButton(text = "X", width = 50)
+            self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
             
             def ok_button_quit(event): 
                 # remove rectangle from list that shows rectangles
@@ -76,7 +76,7 @@ class GameView(arcade.View):
                 self.v_box.remove(button_with_padding)
             
             self.okButton.on_click =  ok_button_quit 
-            button_with_padding = self.okButton.with_space_around(top = 10, bottom = 100, right = 10, left =20)
+            button_with_padding = self.okButton.with_space_around(top = 10, bottom = 10, right = 10, left =10)
             self.v_box.add(button_with_padding)
         
         
