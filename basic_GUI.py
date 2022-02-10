@@ -1,5 +1,6 @@
 import arcade
 import arcade.gui
+from player import *
 
 # --- Set up the constants
 
@@ -37,6 +38,7 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
+        self.game = Game("Gerald")
         self.color = [200,50,50]
         self.isGoing = 0
         self.stats_open = False
