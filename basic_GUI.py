@@ -20,6 +20,7 @@ class Rect:
         self.center_x = x
         self.center_y = y
         self.color = color
+        
 
     def draw(self):
         # Draw the rectangle
@@ -38,6 +39,7 @@ class GameView(arcade.View):
         super().__init__()
         self.color = [200,50,50]
         self.isGoing = 0
+        self.stats_open = False
         # --- Required for all code that uses UI element,
         # a UIManager to handle the UI.
         self.manager = arcade.gui.UIManager()
@@ -67,17 +69,23 @@ class GameView(arcade.View):
                 child=self.v_box)
         )
         def make_stats(event):
-            self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
-            self.okButton = arcade.gui.UIFlatButton(text = "X", width = 50)
+            
             
             def ok_button_quit(event): 
                 # remove rectangle from list that shows rectangles
                 self.rect_list.remove(self.rectapp)
-                self.v_box.remove(button_with_padding)
-            
-            self.okButton.on_click =  ok_button_quit 
-            button_with_padding = self.okButton.with_space_around(top = 10, bottom = 100, right = 10, left =20)
-            self.v_box.add(button_with_padding)
+                self.v_box.remove(self.okButton_with_padding)
+                self.stats_open = False
+            if self.stats_open:
+                ok_button_quit(event)
+            else:
+                self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+                self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
+                
+                self.okButton.on_click =  ok_button_quit 
+                self.okButton_with_padding = self.okButton.with_space_around(top = 200, bottom = 200, right = 200, left =20)
+                self.v_box.add(self.okButton_with_padding)
+                self.stats_open = True
         
         
         
