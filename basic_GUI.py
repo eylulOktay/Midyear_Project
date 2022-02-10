@@ -126,5 +126,5 @@ class GameView(arcade.View):
         print("Make rectangle")
         self.rectapp = Rect(width, height, x, y, color)
         self.rect_list.append(self.rectapp)
-    
-    
+
+        
