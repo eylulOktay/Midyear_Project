@@ -107,6 +107,7 @@ class GameView(arcade.View):
                 self.stats_rects = []
                 #self.ok_box.remove(self.okButton)
                 self.stats_open = False
+                self.manager.remove(self.stable)
                 
 
 
@@ -124,6 +125,12 @@ class GameView(arcade.View):
                 #self.ok_box.add(self.okButton)
                 self.stats_open = True
                 bar_construction(self.game)
+                self.stable = arcade.gui.UITextArea(text="STATS", x = 200, y = 500,
+                                              width=450,
+                                              height=40,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+                self.manager.add(self.stable)
                 
          
                 
