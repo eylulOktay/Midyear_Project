@@ -40,6 +40,8 @@ class GameView(arcade.View):
         super().__init__()
         self.game = Game("Gerald")
         self.color = [200,50,50]
+        self.stats_rects = []
+        self.stats = [self.game.player.grade, self.game.player.sleep, self.game.player.happiness, self.game.player.work_ethic, self.game.player.fun]
         self.isGoing = 0
         self.stats_open = False
         # --- Required for all code that uses UI element,
@@ -70,33 +72,58 @@ class GameView(arcade.View):
                 
                 child=self.v_box)
         )
+
+        
+        
         def make_stats(event):
-            
+            def bar_construction(game):
+                ''' Creates the stats view shown in the menus upon clicking the menu button'''
+                # one big bar for the full metre, # one small bar showing magnititude
+                
+                # add name label here
+                
+                for i in range(len(self.stats)):
+                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLUE_SAPPHIRE)
+                    self.stats_rects.append(stat_rect)
+                    self.rectangle_appear(stat_rect)
             
             def ok_button_quit(event): 
                 # remove rectangle from list that shows rectangles
-                self.rect_list.remove(self.rectapp)
+                
+                for rect in self.stats_rects: # self.stats_rects = list of the ui created by the stats button
+                    self.rect_list.remove(rect)
+                self.stats_rects = []
                 self.v_box.remove(self.okButton_with_padding)
                 self.stats_open = False
+                
+
+
+                
+                
             if self.stats_open:
                 ok_button_quit(event)
             else:
-                self.rectangle_appear(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+                self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+                self.stats_rects.append(self.stats_rect_main)
+                self.rectangle_appear(self.stats_rect_main)
                 self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
                 
                 self.okButton.on_click =  ok_button_quit 
-                self.okButton_with_padding = self.okButton.with_space_around(top = 100, bottom = 500, right = 100, left =10)
+                self.okButton_with_padding = self.okButton.with_space_around(top = 200, bottom = 200, right = 200, left =20)
                 self.v_box.add(self.okButton_with_padding)
                 self.stats_open = True
+                bar_construction(self.game)
+                
+         
+                
+                    
         
         
-        
+      
     
 
 
         self.stats_button.on_click = make_stats
-
-
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
@@ -132,9 +159,9 @@ class GameView(arcade.View):
         self.manager.draw()
         
 
-    def rectangle_appear(self, width, height, x, y, color):
+    def rectangle_appear(self, rectangle):
         print("Make rectangle")
-        self.rectapp = Rect(width, height, x, y, color)
-        self.rect_list.append(self.rectapp)
+        
+        self.rect_list.append(rectangle)
 
         
