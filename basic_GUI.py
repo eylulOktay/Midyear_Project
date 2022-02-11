@@ -85,7 +85,7 @@ class GameView(arcade.View):
                 self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
                 
                 self.okButton.on_click =  ok_button_quit 
-                self.okButton_with_padding = self.okButton.with_space_around(top = 200, bottom = 200, right = 200, left =20)
+                self.okButton_with_padding = self.okButton.with_space_around(top = 100, bottom = 500, right = 100, left =10)
                 self.v_box.add(self.okButton_with_padding)
                 self.stats_open = True
         
