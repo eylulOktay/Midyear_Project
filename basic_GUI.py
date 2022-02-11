@@ -51,7 +51,9 @@ class GameView(arcade.View):
         self.rect_list = []
 
 
-        self.v_box = arcade.gui.UIBoxLayout()
+        self.stats_box = arcade.gui.UIBoxLayout()
+        self.ok_box = arcade.gui.UIBoxLayout()
+
 
         # # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
@@ -59,7 +61,7 @@ class GameView(arcade.View):
         
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
-        self.v_box.add(self.stats_button.with_space_around(top = 10, bottom = 10, right = 10, left =10))
+        self.stats_box.add(self.stats_button)
 
         # Set background color
         arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
@@ -70,8 +72,18 @@ class GameView(arcade.View):
                 anchor_x="right",
                 anchor_y="top",
                 
-                child=self.v_box)
+                child=self.stats_box)
         )
+        '''
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center",
+                anchor_y="center",
+                
+                child=self.ok_box)
+        )
+        '''
+        
 
         
         
@@ -93,7 +105,7 @@ class GameView(arcade.View):
                 for rect in self.stats_rects: # self.stats_rects = list of the ui created by the stats button
                     self.rect_list.remove(rect)
                 self.stats_rects = []
-                self.v_box.remove(self.okButton_with_padding)
+                #self.ok_box.remove(self.okButton)
                 self.stats_open = False
                 
 
@@ -106,11 +118,10 @@ class GameView(arcade.View):
                 self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
                 self.stats_rects.append(self.stats_rect_main)
                 self.rectangle_appear(self.stats_rect_main)
-                self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
+                #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
                 
-                self.okButton.on_click =  ok_button_quit 
-                self.okButton_with_padding = self.okButton.with_space_around(top = 200, bottom = 200, right = 200, left =20)
-                self.v_box.add(self.okButton_with_padding)
+                #self.okButton.on_click =  ok_button_quit 
+                #self.ok_box.add(self.okButton)
                 self.stats_open = True
                 bar_construction(self.game)
                 
