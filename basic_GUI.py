@@ -49,6 +49,7 @@ class GameView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
         self.rect_list = []
+        self.mag_bars = []
 
 
         self.stats_box = arcade.gui.UIBoxLayout()
@@ -92,12 +93,19 @@ class GameView(arcade.View):
                 ''' Creates the stats view shown in the menus upon clicking the menu button'''
                 # one big bar for the full metre, # one small bar showing magnititude
                 
-                # add name label here
+                # collect the mag bars - access by index reference in self.mag_bars
                 
                 for i in range(len(self.stats)):
-                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLUE_SAPPHIRE)
+                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BABY_POWDER)
                     self.stats_rects.append(stat_rect)
                     self.rectangle_appear(stat_rect)
+
+                    # currently unfinished
+                    
+                    # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
+
+                    # actual stats magnitude bar - only length altered (or width of the rectangle)
+                    mag_bar = Rect(self.stats[i] * 460 / 100, SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLUE_SAPPHIRE)
             
             def ok_button_quit(event): 
                 # remove rectangle from list that shows rectangles
@@ -132,15 +140,6 @@ class GameView(arcade.View):
                                               font_name="Kenney Future")
                 self.manager.add(self.stable)
                 
-         
-                
-                    
-        
-        
-      
-    
-
-
         self.stats_button.on_click = make_stats
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
