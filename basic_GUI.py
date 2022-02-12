@@ -96,7 +96,7 @@ class GameView(arcade.View):
                 # collect the mag bars - access by index reference in self.mag_bars
                 
                 for i in range(len(self.stats)):
-                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BABY_POWDER)
+                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLACK)
                     self.stats_rects.append(stat_rect)
                     self.rectangle_appear(stat_rect)
 
@@ -105,7 +105,7 @@ class GameView(arcade.View):
                     # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
 
                     # actual stats magnitude bar - only length altered (or width of the rectangle)
-                    mag_bar = Rect(self.stats[i] * 460 / 100, SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLUE_SAPPHIRE)
+                    mag_bar = Rect(self.stats[i] * 460 / 100, SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
             
             def ok_button_quit(event): 
                 # remove rectangle from list that shows rectangles
