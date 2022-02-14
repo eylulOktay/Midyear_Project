@@ -10,6 +10,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "NAME IN PROGRESS"
 
+STAT_NAMES = ["grade","sleep","happiness","work_ethic","fun"]
 # Rectangle info
 
 class Rect:
@@ -42,7 +43,7 @@ class GameView(arcade.View):
         self.game = Game("Gerald")
         self.color = [200,50,50]
         self.stats_rects = []
-        self.stats = [self.game.player.grade,self.game.player.sleep,self.game.player.happiness,self.game.player.work_ethic,self.game.player.fun]
+        self.stats = self.game.player.stats
         self.isGoing = 0
         self.stats_open = False
         # --- Required for all code that uses UI element,
@@ -50,8 +51,7 @@ class GameView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
         self.rect_list = []
-        self.mag_bars = []
-
+    
 
         self.stats_box = arcade.gui.UIBoxLayout()
         self.ok_box = arcade.gui.UIBoxLayout()
@@ -106,7 +106,7 @@ class GameView(arcade.View):
                     # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
 
                     # actual stats magnitude bar - only length altered (or width of the rectangle)
-                    mag_bar = Rect(self.stats[i] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[i])*4.6/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
+                    mag_bar = Rect(self.stats[STAT_NAMES[i]] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[STAT_NAMES[i]])*4.6/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
                     self.stats_rects.append(mag_bar)
                     self.rectangle_appear(mag_bar)
 
@@ -142,7 +142,7 @@ class GameView(arcade.View):
                                               font_size=20,
                                               font_name="Kenney Future")
                 self.manager.add(self.stable)
-                self.stats[random.randrange(5)] -= 20
+                self.stats[STAT_NAMES[random.randrange(5)]] -= 20
                 
         self.stats_button.on_click = make_stats
 
