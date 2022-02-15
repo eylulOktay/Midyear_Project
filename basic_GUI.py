@@ -45,6 +45,7 @@ class GameView(arcade.View):
         self.color = [200,50,50]
         self.stats_rects = []
         self.stats = self.game.player.stats
+        self.last_max = 0
         self.isGoing = 0
         self.stats_open = False
         # --- Required for all code that uses UI element,
@@ -79,16 +80,40 @@ class GameView(arcade.View):
                 child=self.stats_box)
         )
         self.stats_button.on_click = self.make_stats
-        '''
+       
+        self.time_box = arcade.gui.UIBoxLayout()
+
+        self.time_button = arcade.gui.UIFlatButton(text="Time",
+                                               width=200)
+        self.time_button.on_click = self.time_passes
+        self.time_box.add(self.time_button)
+
+
         self.manager.add(
             arcade.gui.UIAnchorWidget(
-                anchor_x="center",
-                anchor_y="center",
+                anchor_x="left",
+                anchor_y="top",
                 
-                child=self.ok_box)
+                child=self.time_box)
         )
-        '''
-        
+
+        self.act_box = arcade.gui.UIBoxLayout()
+
+        self.act_button = arcade.gui.UIFlatButton(text="ACT",
+                                               width=200)
+        self.act_button.on_click = self.act
+        self.act_box.add(self.act_button)
+
+
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="left",
+                anchor_y="bottom",
+                align_x= 40,
+                align_y= 40,
+                
+                child=self.act_box)
+        )
 
         
         
@@ -182,13 +207,15 @@ class GameView(arcade.View):
             self.manager.add(self.stable)
             bar_construction(self.game)
             self.stats[STAT_NAMES[random.randrange(5)]] -= 20
+            self.game.player.cap()
             
         
+
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
         # Move the rectangle
-        '''
+        
         if self.isGoing:
             arcade.set_background_color((self.color[0],self.color[1],self.color[2]))
             if self.color[self.last_max] > 50:
@@ -198,12 +225,22 @@ class GameView(arcade.View):
             else:
                 self.last_max +=1
                 self.last_max %=3
-        '''
+        
        
         
     def time_passes(self,event):
         self.isGoing = 1 - self.isGoing
         print(f"color: {self.color}")
+        self.stats[STAT_NAMES[random.randint(0,4)]] -= 10
+        self.stats[STAT_NAMES[random.randint(0,4)]] += 10
+                # self.game.player.cap()
+        self.game.time_passes()
+    
+    def act(self,event):
+        self.game.player.do_work()
+        self.time_passes(event)
+        print("doing work")
+        
 
 
     def on_draw(self):
@@ -222,6 +259,12 @@ class GameView(arcade.View):
         
 
     def rectangle_appear(self, rectangle):
-        print("Make rectangle")
+        # print("Make rectangle")
         
         self.rect_list.append(rectangle)
+
+
+
+       
+
+        

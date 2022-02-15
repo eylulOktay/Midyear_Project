@@ -9,11 +9,11 @@ class Game():
 
     def time_passes(self):
         self.time += 1
-        if self.event_list[self.time] == 1:
+        if self.event_list[self.time%6] == 1:
             self.teacher_appear()
-        elif self.event_list[self.time] == 2:
+        elif self.event_list[self.time%6] == 2:
             self.teacher_leave()
-        self.student.time_passes()
+        self.player.time_passes()
 
     def teacher_appear(self):
         self.teacher_present = True
@@ -52,7 +52,7 @@ class Player():
         self.cap()
         self.stats["grade"] -= int(100-self.stats["work_ethic"])/3
         self.cap()
-        self.happiness = int((self.sleep+self.stats["grade"])/2)
+        self.stats["happiness"] = int((self.stats["sleep"]+self.stats["grade"])/2)
         self.cap()
 
 
