@@ -43,11 +43,16 @@ class GameView(arcade.View):
         super().__init__()
         self.game = Game("Gerald")
         self.color = [200,50,50]
-        self.stats_rects = []
-        self.stats = self.game.player.stats
         self.last_max = 0
         self.isGoing = 0
         self.stats_open = False
+        self.stats_rects = []
+        self.stats_labels = []
+        self.stats = self.game.player.stats
+        self.act_open = False
+        self.act_rects = []
+        self.act_labels = []
+        self.act_buttons = []
         # --- Required for all code that uses UI element,
         # a UIManager to handle the UI.
         self.manager = arcade.gui.UIManager()
@@ -57,7 +62,7 @@ class GameView(arcade.View):
     
 
         self.stats_box = arcade.gui.UIBoxLayout()
-        self.ok_box = arcade.gui.UIBoxLayout()
+        
 
 
         # # Create our rectangle
@@ -237,11 +242,53 @@ class GameView(arcade.View):
         self.game.time_passes()
     
     def act(self,event):
+        '''
         self.game.player.do_work()
         self.time_passes(event)
         print("doing work")
-        
+        '''
+        def act_quit(event):
+            for rect in self.act_rects: # self.stats_rects = list of the ui created by the stats button
+                self.rect_list.remove(rect)
+            self.act_rects = []
+            for label in self.act_labels:
+                self.labels.remove(label)
+            self.act_labels = []
+            #self.ok_box.remove(self.okButton)
+            self.act_open = False
+            self.manager.remove(self.able)
 
+        def add_buttons(event):
+            if self.game.scene == 0:
+                # Bedroom?
+                # Study, homework, play games, sleep
+                pass
+            elif self.game.scene == 1:
+                # Bedroom?
+                pass
+                if self.game.teacher_present:
+                    pass
+
+        if self.act_open:
+            act_quit(event)
+        else:
+            self.act_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            self.act_rects.append(self.act_rect_main)
+            self.rectangle_appear(self.act_rect_main)
+            #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
+            
+            #self.okButton.on_click =  ok_button_quit 
+            #self.ok_box.add(self.okButton)
+            self.act_open = True
+            
+            self.able = arcade.gui.UITextArea(text=" ACT ", x = SCREEN_WIDTH/2-20, y = 500,
+                                            width=450,
+                                            height=40,
+                                            font_size=20,
+                                            font_name="Kenney Future")
+            self.manager.add(self.able)
+            add_buttons()
+            
 
     def on_draw(self):
         """ Render the screen. """
