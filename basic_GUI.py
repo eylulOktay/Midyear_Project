@@ -1,3 +1,6 @@
+from tkinter import CENTER
+from turtle import left
+from typing import Text
 import arcade
 import arcade.gui
 from player import *
@@ -54,7 +57,7 @@ class GameView(arcade.View):
 
         self.stats_box = arcade.gui.UIBoxLayout()
         self.ok_box = arcade.gui.UIBoxLayout()
-
+        self.sleep_box = arcade.gui.UIBoxLayout()
 
         # # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
@@ -63,6 +66,13 @@ class GameView(arcade.View):
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
         self.stats_box.add(self.stats_button)
+
+        self.sleep_button = arcade.gui.UIFlatButton(text = "Sleep", width = 200) 
+        self.sleep_box.add(self.sleep_button) 
+
+
+
+
 
         # Set background color
         arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
@@ -75,15 +85,15 @@ class GameView(arcade.View):
                 
                 child=self.stats_box)
         )
-        '''
+        
         self.manager.add(
             arcade.gui.UIAnchorWidget(
                 anchor_x="center",
-                anchor_y="center",
+                anchor_y="bottom",
                 
-                child=self.ok_box)
+                child=self.sleep_box)
         )
-        '''
+        
         
 
         
@@ -102,7 +112,8 @@ class GameView(arcade.View):
 
                     # currently unfinished
                     
-                    # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
+                    # todo - add text labels under or to the side of bars to tell you percentage of bar filled
+                    
 
                     # actual stats magnitude bar - only length altered (or width of the rectangle)
                     mag_bar = Rect(self.stats[i] * 460 / 100, SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLUE_SAPPHIRE)
@@ -116,9 +127,6 @@ class GameView(arcade.View):
                 #self.ok_box.remove(self.okButton)
                 self.stats_open = False
                 self.manager.remove(self.stable)
-                
-
-
                 
                 
             if self.stats_open:
@@ -141,6 +149,8 @@ class GameView(arcade.View):
                 self.manager.add(self.stable)
                 
         self.stats_button.on_click = make_stats
+
+        self.sleep_button.on_click = self.sleep
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
@@ -181,4 +191,5 @@ class GameView(arcade.View):
         
         self.rect_list.append(rectangle)
 
-        
+    def sleep(self, event): 
+        print("Sleepy")
