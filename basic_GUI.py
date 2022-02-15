@@ -11,6 +11,7 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "NAME IN PROGRESS"
 
 STAT_NAMES = ["grade","sleep","happiness","work_ethic","fun"]
+
 # Rectangle info
 
 class Rect:
@@ -51,6 +52,7 @@ class GameView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
         self.rect_list = []
+        self.labels = []
     
 
         self.stats_box = arcade.gui.UIBoxLayout()
@@ -76,6 +78,7 @@ class GameView(arcade.View):
                 
                 child=self.stats_box)
         )
+        self.stats_button.on_click = self.make_stats
         '''
         self.manager.add(
             arcade.gui.UIAnchorWidget(
@@ -89,62 +92,98 @@ class GameView(arcade.View):
 
         
         
-        def make_stats(event):
-            def bar_construction(game):
-                ''' Creates the stats view shown in the menus upon clicking the menu button'''
-                # one big bar for the full metre, # one small bar showing magnititude
-                
-                # collect the mag bars - access by index reference in self.mag_bars
-                
-                for i in range(len(self.stats)):
-                    stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLACK)
-                    self.stats_rects.append(stat_rect)
-                    self.rectangle_appear(stat_rect)
+    def make_stats(self,event):
+        def bar_construction(game):
+            ''' Creates the stats view shown in the menus upon clicking the menu button'''
+            # one big bar for the full metre, # one small bar showing magnititude
+            
+            # collect the mag bars - access by index reference in self.mag_bars
+            
+            for i in range(len(self.stats)):
+                stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLACK)
+                self.stats_rects.append(stat_rect)
+                self.rectangle_appear(stat_rect)
 
-                    # currently unfinished
-                    
-                    # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
+                # currently unfinished
+                
+                # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
 
-                    # actual stats magnitude bar - only length altered (or width of the rectangle)
-                    mag_bar = Rect(self.stats[STAT_NAMES[i]] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[STAT_NAMES[i]])*4.6/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
-                    self.stats_rects.append(mag_bar)
-                    self.rectangle_appear(mag_bar)
+                # actual stats magnitude bar - only length altered (or width of the rectangle)
+                mag_bar = Rect(self.stats[STAT_NAMES[i]] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[STAT_NAMES[i]])*4.6/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
+                self.stats_rects.append(mag_bar)
+                self.rectangle_appear(mag_bar)
 
-            def ok_button_quit(event): 
-                # remove rectangle from list that shows rectangles
-                
-                for rect in self.stats_rects: # self.stats_rects = list of the ui created by the stats button
-                    self.rect_list.remove(rect)
-                self.stats_rects = []
-                #self.ok_box.remove(self.okButton)
-                self.stats_open = False
-                self.manager.remove(self.stable)
-                
-
-
-                
-                
-            if self.stats_open:
-                ok_button_quit(event)
-            else:
-                self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
-                self.stats_rects.append(self.stats_rect_main)
-                self.rectangle_appear(self.stats_rect_main)
-                #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
-                
-                #self.okButton.on_click =  ok_button_quit 
-                #self.ok_box.add(self.okButton)
-                self.stats_open = True
-                bar_construction(self.game)
-                self.stable = arcade.gui.UITextArea(text="STATS", x = 200, y = 500,
-                                              width=450,
-                                              height=40,
+            self.grade_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = SCREEN_WIDTH/2, y = (3+i)*SCREEN_HEIGHT/9 + 30,
+                                        width=50,
+                                        height=20,
+                                        font_size=20,
+                                        font_name="Kenney Future")
+            self.sleep_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
+                                              width=50,
+                                              height=20,
                                               font_size=20,
                                               font_name="Kenney Future")
-                self.manager.add(self.stable)
-                self.stats[STAT_NAMES[random.randrange(5)]] -= 20
-                
-        self.stats_button.on_click = make_stats
+            self.happiness_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
+                                              width=50,
+                                              height=20,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+            self.work_ethic_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
+                                              width=50,
+                                              height=20,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+            self.fun_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
+                                              width=50,
+                                              height=20,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+            self.manager.add(self.grade_label)
+            self.manager.add(self.sleep_label)
+            self.manager.add(self.happiness_label)
+            self.manager.add(self.work_ethic_label)
+            self.manager.add(self.fun_label)
+            self.manager.add(self.stable)
+
+        def ok_button_quit(event): 
+            # remove rectangle from list that shows rectangles
+            
+            for rect in self.stats_rects: # self.stats_rects = list of the ui created by the stats button
+                self.rect_list.remove(rect)
+            self.stats_rects = []
+            for slabel in self.labels:
+                self.labels.remove(slabel)
+            self.labels = []
+            #self.ok_box.remove(self.okButton)
+            self.stats_open = False
+            self.manager.remove(self.stable)
+            
+
+
+            
+            
+        if self.stats_open:
+            ok_button_quit(event)
+        else:
+            self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            self.stats_rects.append(self.stats_rect_main)
+            self.rectangle_appear(self.stats_rect_main)
+            #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
+            
+            #self.okButton.on_click =  ok_button_quit 
+            #self.ok_box.add(self.okButton)
+            self.stats_open = True
+            
+            self.stable = arcade.gui.UITextArea(text="STATS", x = 200, y = 500,
+                                            width=450,
+                                            height=40,
+                                            font_size=20,
+                                            font_name="Kenney Future")
+            self.manager.add(self.stable)
+            bar_construction(self.game)
+            self.stats[STAT_NAMES[random.randrange(5)]] -= 20
+            
+        
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
@@ -186,5 +225,3 @@ class GameView(arcade.View):
         print("Make rectangle")
         
         self.rect_list.append(rectangle)
-
-        
