@@ -39,7 +39,7 @@ for x in range(0, 601, 120):
 for y in range(0, 601, 200):
     arcade.draw_line(0, y, 800, y, arcade.color.BLACK, 2)
 
-# Draw a point
+# Draw a point, use for percentages
 arcade.draw_text("draw_point", 3, 405, arcade.color.BLACK, 12)
 arcade.draw_point(60, 495, arcade.color.RED, 10)
 

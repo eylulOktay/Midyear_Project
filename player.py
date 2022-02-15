@@ -9,11 +9,11 @@ class Game():
 
     def time_passes(self):
         self.time += 1
-        if self.event_list[self.time] == 1:
+        if self.event_list[self.time%6] == 1:
             self.teacher_appear()
-        elif self.event_list[self.time] == 2:
+        elif self.event_list[self.time%6] == 2:
             self.teacher_leave()
-        self.student.time_passes()
+        self.player.time_passes()
 
     def teacher_appear(self):
         self.teacher_present = True
@@ -24,42 +24,44 @@ class Game():
 
 class Player():
     def __init__(self, name):
-        self.grade = 100
-        self.sleep = 100
-        self.happiness = 100
-        self.work_ethic = 10
-        self.fun = 10
+        self.stats = {}
+        self.stats["grade"] = 100
+        self.stats["sleep"] = 100
+        self.stats["happiness"] = 100
+        self.stats["work_ethic"] = 100
+        self.stats["fun"] = 100
+        
         self.name = name.strip().capitalize()
     
     def sleep(self, time):
-        self.sleep = time*12
+        self.stats["sleep"] = time*12
 
     def do_work(self):
-        self.work_ethic += 1
-        self.fun -= 5
+        self.stats["work_ethic"] += 10
+        self.stats["fun"] -= 5
     
     def take_test(self):
         self.cap()
-        self.grade = int(self.work_ethic*10+self.grade)/2
+        self.stats["grade"] = int(self.stats["work_ethic"]+self.stats["grade"])/2
     
     def play_games(self):
-        self.fun += 10
-        self.work_ethic -= 1
+        self.stats["fun"] += 10
+        self.stats["work_ethic"] -= 5
     
     def time_passes(self):
         self.cap()
-        self.grade -= int(10-self.work_ethic)/3
+        self.stats["grade"] -= int(100-self.stats["work_ethic"])/3
         self.cap()
-        self.happiness = int((self.sleep+self.grade)/2)
+        self.stats["happiness"] = int((self.stats["sleep"]+self.stats["grade"])/2)
         self.cap()
 
 
     def cap(self):
-        self.grade = self.oor(self.grade,60,100)
-        self.fun = self.oor(self.fun,0,100)
-        self.sleep = self.oor(self.sleep,0,100)
-        self.work_ethic = self.oor(self.work_ethic,0,10)
-        self.happiness = self.oor(self.happiness,0,100)
+        self.stats["grade"] = self.oor(self.stats["grade"],60,100)
+        self.stats["fun"] = self.oor(self.stats["fun"],0,100)
+        self.stats["sleep"] = self.oor(self.stats["sleep"],0,100)
+        self.stats["work_ethic"] = self.oor(self.stats["work_ethic"],0,100)
+        self.stats["happiness"] = self.oor(self.stats["happiness"],0,100)
     
     def oor(self, var, min, max):
         if var > max:
