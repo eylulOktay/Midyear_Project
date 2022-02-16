@@ -304,7 +304,7 @@ class GameView(arcade.View):
         if self.act_open:
             act_quit(event)
         else:
-            self.act_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            self.act_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.RED_DEVIL)
             self.act_rects.append(self.act_rect_main)
             self.rectangle_appear(self.act_rect_main)
             #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
