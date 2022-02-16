@@ -1,6 +1,3 @@
-from tkinter import CENTER
-from turtle import left
-from typing import Text
 import arcade
 import arcade.gui
 from player import *
@@ -65,8 +62,8 @@ class GameView(arcade.View):
     
 
         self.stats_box = arcade.gui.UIBoxLayout()
-        self.ok_box = arcade.gui.UIBoxLayout()
-        self.sleep_box = arcade.gui.UIBoxLayout()
+        
+
 
         # # Create our rectangle
         self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
@@ -75,13 +72,6 @@ class GameView(arcade.View):
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
                                                width=200)
         self.stats_box.add(self.stats_button)
-
-        self.sleep_button = arcade.gui.UIFlatButton(text = "Sleep", width = 200) 
-        self.sleep_box.add(self.sleep_button) 
-
-
-
-
 
         # Set background color
         arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
@@ -94,22 +84,13 @@ class GameView(arcade.View):
                 
                 child=self.stats_box)
         )
-        
-        self.manager.add(
-            arcade.gui.UIAnchorWidget(
-                anchor_x="center",
-                anchor_y="bottom",
-                
-                child=self.sleep_box)
-        )
-        
-        
         self.stats_button.on_click = self.make_stats
        
         self.time_box = arcade.gui.UIBoxLayout()
 
         self.time_button = arcade.gui.UIFlatButton(text="Time",
                                                width=200)
+        
         self.time_button.on_click = self.time_passes
         self.time_box.add(self.time_button)
 
@@ -124,9 +105,10 @@ class GameView(arcade.View):
 
         self.act_box = arcade.gui.UIBoxLayout()
 
+
         self.act_button = arcade.gui.UIFlatButton(text="ACT",
                                                width=200)
-        self.act_button.on_click = self.act
+        self.act_button.on_click = self.make_act
         self.act_box.add(self.act_button)
 
 
@@ -140,6 +122,30 @@ class GameView(arcade.View):
                 child=self.act_box)
         )
 
+      
+
+        # Buttons Section
+
+        self.act_buttons_box = arcade.gui.UIBoxLayout()
+
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center",
+                anchor_y="center",
+                y=30,
+                child=self.act_buttons_box)
+        )
+
+        self.sleep_button = arcade.gui.UIFlatButton(text="Sleep", width=200) 
+        self.sleep_button.on_click = lambda event : self.act(event,0)
+
+        self.homework_button = arcade.gui.UIFlatButton(text="Homework", width=200) 
+        self.homework_button.on_click = lambda event : self.act(event,1)
+
+        self.games_button = arcade.gui.UIFlatButton(text="Games", width=200) 
+        self.games_button.on_click = lambda event : self.act(event,2)
+
+        
         
         
     def make_stats(self,event):
@@ -237,8 +243,6 @@ class GameView(arcade.View):
         
 
 
-        self.sleep_button.on_click = self.sleep
-
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
     def on_update(self, delta_time):
         # Move the rectangle
@@ -263,7 +267,7 @@ class GameView(arcade.View):
                 # self.game.player.cap()
         self.game.time_passes()
     
-    def act(self,event):
+    def make_act(self,event):
         '''
         self.game.player.do_work()
         self.time_passes(event)
@@ -279,16 +283,22 @@ class GameView(arcade.View):
             #self.ok_box.remove(self.okButton)
             self.act_open = False
             self.manager.remove(self.able)
+            for button in self.act_buttons:
+                self.act_buttons_box.remove(button)
+            self.act_buttons = []
 
         def add_buttons(event):
             if self.game.scene == 0:
                 # Bedroom?
-                # Study, homework, play games, sleep
-                pass
+                self.act_buttons = [self.sleep_button,self.homework_button,self.games_button]
+                
             elif self.game.scene == 1:
-                # Bedroom?
-                pass
+                # In school
                 if self.game.teacher_present:
+                    # Pay attention, stare out the window, classwork, (occasionally) test
+                    pass
+                elif not self.game.teacher_present:
+                    # Study, school work, play games, skip class
                     pass
 
         if self.act_open:
@@ -309,8 +319,18 @@ class GameView(arcade.View):
                                             font_size=20,
                                             font_name="Kenney Future")
             self.manager.add(self.able)
-            add_buttons()
+            add_buttons(event)
+            for button in self.act_buttons:
+                self.act_buttons_box.add(button)
             
+    def act(self, event, key):
+        if key == 0:
+            print("hi!")
+        elif key == 1:
+            for stat in self.stats:
+                print(stat,self.stats[stat])
+        elif key == 2:
+            print("bye!")
 
     def on_draw(self):
         """ Render the screen. """
@@ -332,5 +352,8 @@ class GameView(arcade.View):
         
         self.rect_list.append(rectangle)
 
-    def sleep(self, event): 
-        print("Sleepy")
+
+
+       
+
+        

@@ -2,7 +2,7 @@ class Game():
     def __init__(self, name):
         self.player = Player(name)
         self.time = 0
-        self.scene = 1
+        self.scene = 0
         self.event_list = [0,0,1,0,0,2]
         self.teacher_present = False
         
