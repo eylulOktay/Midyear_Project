@@ -156,7 +156,7 @@ class GameView(arcade.View):
             # collect the mag bars - access by index reference in self.mag_bars
             
             for i in range(len(self.stats)):
-                stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.BLACK)
+                stat_rect = Rect(460,10,SCREEN_WIDTH/2, (3+i)*SCREEN_HEIGHT/9 - 25, arcade.color.BLACK)
                 self.stats_rects.append(stat_rect)
                 self.rectangle_appear(stat_rect)
 
@@ -165,41 +165,45 @@ class GameView(arcade.View):
                 # todo - add text labels under or to the side of bars to tell you percentage of bar filled?
 
                 # actual stats magnitude bar - only length altered (or width of the rectangle)
-                mag_bar = Rect(self.stats[STAT_NAMES[i]] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[STAT_NAMES[i]])*4.6/2, (3+i)*SCREEN_HEIGHT/9, arcade.color.CADMIUM_GREEN)
+                mag_bar = Rect(self.stats[STAT_NAMES[i]] * 460 / 100, 10, SCREEN_WIDTH/2 - (100 - self.stats[STAT_NAMES[i]])*4.6/2, (3+i)*SCREEN_HEIGHT/9 -25, arcade.color.CADMIUM_GREEN)
                 self.stats_rects.append(mag_bar)
                 self.rectangle_appear(mag_bar)
 
-            self.grade_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = SCREEN_WIDTH/2, y = (3+i)*SCREEN_HEIGHT/9 + 30,
-                                        width=50,
+            self.grade_label = arcade.gui.UITextArea(text=STAT_NAMES[0] + f": {int(self.game.player.stats[STAT_NAMES[0]])}%", x = SCREEN_WIDTH/4, y = 80*1 + 105,
+                                        width=200,
                                         height=20,
-                                        font_size=20,
+                                        font_size=10,
                                         font_name="Kenney Future")
-            self.sleep_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
-                                              width=50,
-                                              height=20,
-                                              font_size=20,
-                                              font_name="Kenney Future")
-            self.happiness_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
-                                              width=50,
-                                              height=20,
-                                              font_size=20,
-                                              font_name="Kenney Future")
-            self.work_ethic_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
-                                              width=50,
-                                              height=20,
-                                              font_size=20,
-                                              font_name="Kenney Future")
-            self.fun_label = arcade.gui.UITextArea(text=STAT_NAMES[i] + f"{self.game.player.stats[STAT_NAMES[i]]/100:2f}", x = 200, y = 500,
-                                              width=50,
-                                              height=20,
-                                              font_size=20,
-                                              font_name="Kenney Future")
+            self.sleep_label = arcade.gui.UITextArea(text=STAT_NAMES[1] + f": {int(self.game.player.stats[STAT_NAMES[1]])}%", x = SCREEN_WIDTH/4, y = 65*2+15 +105,
+                                            width=200,
+                                            height=20,
+                                            font_size=10,
+                                            font_name="Kenney Future")
+            self.happiness_label = arcade.gui.UITextArea(text=STAT_NAMES[2] + f": {int(self.game.player.stats[STAT_NAMES[2]])}%", x = SCREEN_WIDTH/4, y = 65*3+15 +105,
+                                            width=200,
+                                            height=20,
+                                            font_size=10,
+                                            font_name="Kenney Future")
+            self.work_ethic_label = arcade.gui.UITextArea(text=STAT_NAMES[3] + f": {int(self.game.player.stats[STAT_NAMES[3]])}%", x = SCREEN_WIDTH/4, y = 65*4+15 +105,
+                                            width=200,
+                                            height=20,
+                                            font_size=10,
+                                            font_name="Kenney Future")
+            self.fun_label = arcade.gui.UITextArea(text=STAT_NAMES[4] + f": {int(self.game.player.stats[STAT_NAMES[4]])}%", x = SCREEN_WIDTH/4, y = 65*5+15 +105,
+                                            width=200,
+                                            height=20,
+                                            font_size=10,
+                                            font_name="Kenney Future")
             self.manager.add(self.grade_label)
             self.manager.add(self.sleep_label)
             self.manager.add(self.happiness_label)
             self.manager.add(self.work_ethic_label)
             self.manager.add(self.fun_label)
-            self.manager.add(self.stable)
+            self.manager.add(self.stable) # STATS label
+
+            for slabel in [self.grade_label, self.sleep_label, self.happiness_label, self.work_ethic_label, self.fun_label, self.stable]:
+                self.stats_labels.append(slabel)
+                self.labels.append(slabel)
 
         def ok_button_quit(event): 
             # remove rectangle from list that shows rectangles
@@ -207,12 +211,12 @@ class GameView(arcade.View):
             for rect in self.stats_rects: # self.stats_rects = list of the ui created by the stats button
                 self.rect_list.remove(rect)
             self.stats_rects = []
-            for slabel in self.labels:
-                self.labels.remove(slabel)
-            self.labels = []
+            for label in self.stats_labels:
+                self.labels.remove(label)
+                self.manager.remove(label)
+            self.stats_labels = []
             #self.ok_box.remove(self.okButton)
             self.stats_open = False
-            self.manager.remove(self.stable)
             
 
 
@@ -235,12 +239,12 @@ class GameView(arcade.View):
                                             height=40,
                                             font_size=20,
                                             font_name="Kenney Future")
-            self.manager.add(self.stable)
+            
             bar_construction(self.game)
             self.stats[STAT_NAMES[random.randrange(5)]] -= 20
             self.game.player.cap()
-            
         
+    
 
 
     # This just updates the screen. Not sure why, and not sure I care. Just yet.
