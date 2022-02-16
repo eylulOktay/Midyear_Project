@@ -38,7 +38,7 @@ class Player():
 
     def do_work(self):
         self.stats["work_ethic"] += 10
-        self.stats["fun"] -= 5
+        self.stats["fun"] -= 7
     
     def take_test(self):
         self.cap()
@@ -46,7 +46,11 @@ class Player():
     
     def play_games(self):
         self.stats["fun"] += 10
-        self.stats["work_ethic"] -= 5
+        self.stats["work_ethic"] -= 7
+
+    def text_friends(self):
+        self.stats["fun"] += 18
+        self.stats["work_ethic"] -= 12
     
     def time_passes(self):
         self.cap()

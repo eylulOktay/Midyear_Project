@@ -91,7 +91,7 @@ class GameView(arcade.View):
         self.time_button = arcade.gui.UIFlatButton(text="Time",
                                                width=200)
         
-        self.time_button.on_click = self.time_passes
+        self.time_button.on_click = self.color_nonsense
         self.time_box.add(self.time_button)
 
 
@@ -144,6 +144,10 @@ class GameView(arcade.View):
 
         self.games_button = arcade.gui.UIFlatButton(text="Games", width=200) 
         self.games_button.on_click = lambda event : self.act(event,2)
+
+        self.text_friends_button = arcade.gui.UIFlatButton(text="Text Friends", width=200) 
+        self.text_friends_button.on_click = lambda event : self.act(event,3)
+
 
         
         
@@ -241,8 +245,8 @@ class GameView(arcade.View):
                                             font_name="Kenney Future")
             
             bar_construction(self.game)
-            self.stats[STAT_NAMES[random.randrange(5)]] -= 20
-            self.game.player.cap()
+            # self.stats[STAT_NAMES[random.randrange(5)]] -= 20
+            # self.game.player.cap()
         
     
 
@@ -263,7 +267,7 @@ class GameView(arcade.View):
         
        
         
-    def time_passes(self,event):
+    def color_nonsense(self,event):
         self.isGoing = 1 - self.isGoing
         print(f"color: {self.color}")
         self.stats[STAT_NAMES[random.randint(0,4)]] -= 10
@@ -294,7 +298,7 @@ class GameView(arcade.View):
         def add_buttons(event):
             if self.game.scene == 0:
                 # Bedroom?
-                self.act_buttons = [self.sleep_button,self.homework_button,self.games_button]
+                self.act_buttons = [self.sleep_button,self.homework_button,self.games_button,  self.text_friends_button]
                 
             elif self.game.scene == 1:
                 # In school
@@ -335,6 +339,9 @@ class GameView(arcade.View):
                 print(stat,self.stats[stat])
         elif key == 2:
             print("bye!")
+        elif key == 3:
+            self.game.player.text_friends()
+        self.game.player.cap()
 
     def on_draw(self):
         """ Render the screen. """
