@@ -59,7 +59,10 @@ class GameView(arcade.View):
         self.manager.enable()
         self.rect_list = []
         self.labels = []
-    
+
+        # to sleep
+        self.blackRec = Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.BLACK) 
+        self.sleep_timer = 5
 
         self.stats_box = arcade.gui.UIBoxLayout()
         
@@ -138,6 +141,7 @@ class GameView(arcade.View):
 
         self.sleep_button = arcade.gui.UIFlatButton(text="Sleep", width=200) 
         self.sleep_button.on_click = lambda event : self.act(event,0)
+
 
         self.homework_button = arcade.gui.UIFlatButton(text="Homework", width=200) 
         self.homework_button.on_click = lambda event : self.act(event,1)
@@ -329,7 +333,12 @@ class GameView(arcade.View):
             
     def act(self, event, key):
         if key == 0:
-            print("hi!")
+            self.blackRec = Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.BLACK) 
+            self.rect_list.append(self.blackRec)
+
+            self.sleep_timer = 5
+
+
         elif key == 1:
             for stat in self.stats:
                 print(stat,self.stats[stat])
