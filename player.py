@@ -1,7 +1,7 @@
 class Game():
     def __init__(self, name):
         self.player = Player(name)
-        self.time = 0
+        self.time = 18
         self.scene = 0
         self.event_list = [0,0,1,0,0,2]
         self.teacher_present = False
@@ -9,6 +9,7 @@ class Game():
 
     def time_passes(self):
         self.time += 1
+        self.time %= 24
         if self.event_list[self.time%6] == 1:
             self.teacher_appear()
         elif self.event_list[self.time%6] == 2:
@@ -34,15 +35,12 @@ class Player():
         self.name = name.strip().capitalize()
     
     def sleep(self, time):
-        self.stats["sleep"] = time*12
+        self.stats["sleep"] += time*12
+        
 
     def do_work(self):
         self.stats["work_ethic"] += 10
         self.stats["fun"] -= 7
-    
-    def take_test(self):
-        self.cap()
-        self.stats["grade"] = int(self.stats["work_ethic"]+self.stats["grade"])/2
     
     def play_games(self):
         self.stats["fun"] += 10
@@ -51,12 +49,17 @@ class Player():
     def text_friends(self):
         self.stats["fun"] += 18
         self.stats["work_ethic"] -= 12
+
+    def take_test(self):
+        self.cap()
+        self.stats["grade"] = (self.stats["work_ethic"]+self.stats["grade"])/2
     
     def time_passes(self):
+        self.stats["sleep"] -= 5
         self.cap()
-        self.stats["grade"] -= int(100-self.stats["work_ethic"])/3
+        self.stats["grade"] -= ((90-self.stats["work_ethic"])+abs((90-self.stats["work_ethic"]))+(90-self.stats["sleep"])+abs((90-self.stats["sleep"])))/12
         self.cap()
-        self.stats["happiness"] = int((self.stats["sleep"]+self.stats["grade"])/2)
+        self.stats["happiness"] = ((self.stats["grade"]+self.stats["fun"])/2)
         self.cap()
 
 

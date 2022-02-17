@@ -333,15 +333,16 @@ class GameView(arcade.View):
             
     def act(self, event, key):
         if key == 0:
-            print("hi!")
+            self.game.player.sleep((6-self.game.time)%24)
         elif key == 1:
-            for stat in self.stats:
-                print(stat,self.stats[stat])
+            self.game.player.do_work()
         elif key == 2:
-            print("bye!")
+            self.game.player.play_games()
         elif key == 3:
             self.game.player.text_friends()
-        self.game.player.cap()
+            
+        self.game.time_passes()
+        self.make_act(event)
 
     def on_draw(self):
         """ Render the screen. """
