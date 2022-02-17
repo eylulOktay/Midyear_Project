@@ -282,7 +282,7 @@ class GameView(arcade.View):
         self.stats[STAT_NAMES[random.randint(0,4)]] -= 10
         self.stats[STAT_NAMES[random.randint(0,4)]] += 10
                 # self.game.player.cap()
-        self.game.time_passes()
+        self.time_passes()
     
     def make_act(self,event):
         '''
@@ -354,9 +354,12 @@ class GameView(arcade.View):
         elif key == 3:
             self.game.player.text_friends()
             
-        self.game.time_passes()
+        self.time_passes()
         self.make_act(event)
         
+    def time_passes(self):
+        self.game.time_passes()
+        print(self.game.time)
 
     def on_draw(self):
         """ Render the screen. """
