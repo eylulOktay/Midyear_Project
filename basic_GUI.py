@@ -62,6 +62,9 @@ class GameView(arcade.View):
         self.rect_list = []
         self.top_list = []
         self.labels = []
+        #time
+        self.total_time = 0.0
+        self.output = "00:00:00"
     
 
         self.stats_box = arcade.gui.UIBoxLayout()
@@ -272,6 +275,18 @@ class GameView(arcade.View):
         if len(self.top_list):
             print(self.top_list)
         
+        self.total_time += delta_time
+
+        # Calculate minutes
+        minutes = int(self.total_time) // 60
+
+        # Calculate seconds by using a modulus (remainder)
+        seconds = int(self.total_time) % 60
+        self.output = f"{self.game.time:02d}:00"
+
+
+
+        
 
         
        
@@ -282,7 +297,7 @@ class GameView(arcade.View):
         self.stats[STAT_NAMES[random.randint(0,4)]] -= 10
         self.stats[STAT_NAMES[random.randint(0,4)]] += 10
                 # self.game.player.cap()
-        self.time_passes()
+        self.game.time_passes()
     
     def make_act(self,event):
         '''
@@ -354,12 +369,9 @@ class GameView(arcade.View):
         elif key == 3:
             self.game.player.text_friends()
             
-        self.time_passes()
+        self.game.time_passes()
         self.make_act(event)
         
-    def time_passes(self):
-        self.game.time_passes()
-        print(self.game.time)
 
     def on_draw(self):
         """ Render the screen. """
@@ -383,6 +395,13 @@ class GameView(arcade.View):
                 self.isSleeping = 0
                 self.sleep_state = 0
             self.sleep_state += 5
+            self.clear()
+
+        # Output the timer text.
+        arcade.draw_text(self.output,
+                         SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50,
+                         arcade.color.WHITE, 100,
+                         anchor_x="center")
 
 
     def rectangle_appear(self, rectangle):
