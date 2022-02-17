@@ -267,6 +267,8 @@ class GameView(arcade.View):
         
        
         
+       
+        
     def color_nonsense(self,event):
         self.isGoing = 1 - self.isGoing
         print(f"color: {self.color}")
@@ -334,6 +336,8 @@ class GameView(arcade.View):
     def act(self, event, key):
         if key == 0:
             self.game.player.sleep((6-self.game.time)%24)
+            self.blackRec = Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.BLACK) 
+            self.rect_list.append(self.blackRec)
         elif key == 1:
             self.game.player.do_work()
         elif key == 2:
