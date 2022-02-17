@@ -44,8 +44,10 @@ class GameView(arcade.View):
         self.game = Game("Gerald")
         self.color = [200,50,50]
         self.last_max = 0
+        self.sleep_state = 0
         self.isGoing = 0
         self.stats_open = False
+        self.isSleeping = False
         self.stats_rects = []
         self.stats_labels = []
         self.stats = self.game.player.stats
@@ -58,6 +60,7 @@ class GameView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
         self.rect_list = []
+        self.top_list = []
         self.labels = []
     
 
@@ -229,6 +232,8 @@ class GameView(arcade.View):
         if self.stats_open:
             ok_button_quit(event)
         else:
+            if self.act_open:
+                self.make_act(event)
             self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
             self.stats_rects.append(self.stats_rect_main)
             self.rectangle_appear(self.stats_rect_main)
@@ -264,8 +269,10 @@ class GameView(arcade.View):
             else:
                 self.last_max +=1
                 self.last_max %=3
+        if len(self.top_list):
+            print(self.top_list)
         
-       
+
         
        
         
@@ -314,6 +321,8 @@ class GameView(arcade.View):
         if self.act_open:
             act_quit(event)
         else:
+            if self.stats_open:
+                self.make_stats(event)
             self.act_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.RED_DEVIL)
             self.act_rects.append(self.act_rect_main)
             self.rectangle_appear(self.act_rect_main)
@@ -336,8 +345,8 @@ class GameView(arcade.View):
     def act(self, event, key):
         if key == 0:
             self.game.player.sleep((6-self.game.time)%24)
-            self.blackRec = Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.BLACK) 
-            self.rect_list.append(self.blackRec)
+            self.isSleeping = 1
+            
         elif key == 1:
             self.game.player.do_work()
         elif key == 2:
@@ -347,6 +356,7 @@ class GameView(arcade.View):
             
         self.game.time_passes()
         self.make_act(event)
+        
 
     def on_draw(self):
         """ Render the screen. """
@@ -361,12 +371,26 @@ class GameView(arcade.View):
             n.draw()
         
         self.manager.draw()
-        
+        if self.isSleeping:
+            if self.sleep_state < 300:
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
+            elif self.sleep_state < 600:
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
+            else:
+                self.isSleeping = 0
+                self.sleep_state = 0
+            self.sleep_state += 5
+
 
     def rectangle_appear(self, rectangle):
         # print("Make rectangle")
         
         self.rect_list.append(rectangle)
+
+    def toptangle_appear(self, rectangle):
+        # print("Make rectangle")
+        
+        self.top_list.append(rectangle)
 
 
 
