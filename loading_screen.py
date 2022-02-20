@@ -24,6 +24,13 @@ class LoadingView(arcade.View):
                                               font_size=20,
                                               font_name="Kenney Future")
         self.manager.add(ui_text_label.with_space_around(bottom=0))
+        ui_text_label = arcade.gui.UITextArea(text="Pre-Release 1.0.0", x = 200, y = 400,
+                                              width=450,
+                                              height=40,
+                                              font_size=20,
+                                              font_name="Kenney Future")
+        self.manager.add(ui_text_label.with_space_around(bottom=0))
+
 
         # UITextureButton
         texture = arcade.load_texture(":resources:onscreen_controls/flat_dark/play.png")

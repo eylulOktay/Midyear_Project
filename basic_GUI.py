@@ -92,22 +92,22 @@ class GameView(arcade.View):
         )
         self.stats_button.on_click = self.make_stats
        
-        self.time_box = arcade.gui.UIBoxLayout()
+        # self.time_box = arcade.gui.UIBoxLayout()
 
-        self.time_button = arcade.gui.UIFlatButton(text="Time",
-                                               width=200)
+        # self.time_button = arcade.gui.UIFlatButton(text="Time",
+        #                                        width=200)
         
-        self.time_button.on_click = self.color_nonsense
-        self.time_box.add(self.time_button)
+        # self.time_button.on_click = self.color_nonsense
+        # self.time_box.add(self.time_button)
 
 
-        self.manager.add(
-            arcade.gui.UIAnchorWidget(
-                anchor_x="left",
-                anchor_y="top",
+        # self.manager.add(
+        #     arcade.gui.UIAnchorWidget(
+        #         anchor_x="left",
+        #         anchor_y="top",
                 
-                child=self.time_box)
-        )
+        #         child=self.time_box)
+        # )
 
         self.act_box = arcade.gui.UIBoxLayout()
 
@@ -154,6 +154,14 @@ class GameView(arcade.View):
         self.text_friends_button = arcade.gui.UIFlatButton(text="Text Friends", width=200) 
         self.text_friends_button.on_click = lambda event : self.act(event,3)
 
+        self.go_to_school_button1 = arcade.gui.UIFlatButton(text="Go To School", width=200) 
+        self.go_to_school_button1.on_click = lambda event : self.act(event,4)
+
+        self.go_to_school_button2 = arcade.gui.UIFlatButton(text="You Don't Have A Choice", width=200) 
+        self.go_to_school_button2.on_click = lambda event : self.act(event,4)
+
+        self.go_to_school_button3 = arcade.gui.UIFlatButton(text="Seriously, Just Go", width=200) 
+        self.go_to_school_button3.on_click = lambda event : self.act(event,4)
 
         
         
@@ -275,13 +283,7 @@ class GameView(arcade.View):
         if len(self.top_list):
             print(self.top_list)
         
-        self.total_time += delta_time
-
-        # Calculate minutes
-        minutes = int(self.total_time) // 60
-
-        # Calculate seconds by using a modulus (remainder)
-        seconds = int(self.total_time) % 60
+     
         self.output = f"{self.game.time:02d}:00"
 
 
@@ -323,6 +325,9 @@ class GameView(arcade.View):
             if self.game.scene == 0:
                 # Bedroom?
                 self.act_buttons = [self.sleep_button,self.homework_button,self.games_button,  self.text_friends_button]
+            elif self.game.scene == 0.5:
+                #start of day (this is where things start becoming a mess)
+                self.act_buttons = [self.go_to_school_button1,self.go_to_school_button2, self.go_to_school_button3]
                 
             elif self.game.scene == 1:
                 # In school
@@ -332,6 +337,7 @@ class GameView(arcade.View):
                 elif not self.game.teacher_present:
                     # Study, school work, play games, skip class
                     pass
+            
 
         if self.act_open:
             act_quit(event)
@@ -354,8 +360,9 @@ class GameView(arcade.View):
                                             font_name="Kenney Future")
             self.manager.add(self.able)
             add_buttons(event)
-            for button in self.act_buttons:
-                self.act_buttons_box.add(button)
+            for i in range(len(self.act_buttons)):
+                self.act_buttons[i] = self.act_buttons[i].with_space_around(bottom=10)
+                self.act_buttons_box.add(self.act_buttons[i])
             
     def act(self, event, key):
         if key == 0:
@@ -368,8 +375,11 @@ class GameView(arcade.View):
             self.game.player.play_games()
         elif key == 3:
             self.game.player.text_friends()
-            
-        self.game.time_passes()
+        elif key == 4:
+            self.game.scene = 1
+        
+        if key != 0:
+            self.game.time_passes()
         self.make_act(event)
         
 
@@ -386,22 +396,26 @@ class GameView(arcade.View):
             n.draw()
         
         self.manager.draw()
+         # Output the timer text.
+        arcade.draw_text(self.output,
+                         30, SCREEN_HEIGHT-20,
+                         arcade.color.WHITE, 20,
+                         anchor_x="left",
+                         anchor_y="top")
         if self.isSleeping:
             if self.sleep_state < 300:
                 Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
             elif self.sleep_state < 600:
+                self.game.time = 6
+                self.game.scene = 0.5
                 Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
             else:
                 self.isSleeping = 0
                 self.sleep_state = 0
             self.sleep_state += 5
-            self.clear()
+           
 
-        # Output the timer text.
-        arcade.draw_text(self.output,
-                         SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50,
-                         arcade.color.WHITE, 100,
-                         anchor_x="center")
+       
 
 
     def rectangle_appear(self, rectangle):
