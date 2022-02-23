@@ -12,6 +12,7 @@ SCREEN_TITLE = "NAME IN PROGRESS"
 
 STAT_NAMES = ["grade","sleep","happiness","work_ethic","fun"]
 
+SCENE_COLOR = [arcade.color.AIR_FORCE_BLUE, arcade.color.ANTIQUE_BRONZE]
 # Rectangle info
 
 class Rect:
@@ -395,6 +396,7 @@ class GameView(arcade.View):
             self.game.time_passes()
         self.make_act(event)
         self.game.player.cap()
+        arcade.set_background_color(SCENE_COLOR[self.game.scene])
         
 
     def on_draw(self):
