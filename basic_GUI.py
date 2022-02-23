@@ -163,6 +163,19 @@ class GameView(arcade.View):
         self.go_to_school_button3 = arcade.gui.UIFlatButton(text="Seriously, Just Go", width=200) 
         self.go_to_school_button3.on_click = lambda event : self.act(event,4)
 
+        self.schoolwork_button = arcade.gui.UIFlatButton(text="Schoolwork", width=200) 
+        self.schoolwork_button.on_click = lambda event : self.act(event,1)
+
+        self.chat_button = arcade.gui.UIFlatButton(text="Chat With Friends", width=200) 
+        self.chat_button.on_click = lambda event : self.act(event,3)
+
+        self.study_button = arcade.gui.UIFlatButton(text="Study", width=200) 
+        self.study_button.on_click = lambda event : self.act(event,1)
+
+        self.ask_for_help_button = arcade.gui.UIFlatButton(text="Ask For Help", width=200) 
+        self.ask_for_help_button.on_click = lambda event : self.act(event,1)
+
+
         
         
         
@@ -333,10 +346,10 @@ class GameView(arcade.View):
                 # In school
                 if self.game.teacher_present:
                     # Pay attention, stare out the window, classwork, (occasionally) test
-                    pass
+                    self.act_buttons = [self.ask_for_help_button,self.schoolwork_button, self.games_button, self.chat_button]
                 elif not self.game.teacher_present:
                     # Study, school work, play games, skip class
-                    pass
+                    self.act_buttons = [self.study_button,self.schoolwork_button, self.games_button, self.chat_button]
             
 
         if self.act_open:
@@ -381,6 +394,7 @@ class GameView(arcade.View):
         if key != 0:
             self.game.time_passes()
         self.make_act(event)
+        self.game.player.cap()
         
 
     def on_draw(self):
@@ -389,8 +403,8 @@ class GameView(arcade.View):
         # Clear screen
         self.clear()
         # Draw the rectangle
-        
-        self.teacher.draw()
+        if self.game.teacher_present:
+            self.teacher.draw()
         self.lower_frame.draw()
         for n in self.rect_list:
             n.draw()

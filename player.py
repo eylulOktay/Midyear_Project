@@ -3,17 +3,20 @@ class Game():
         self.player = Player(name)
         self.time = 18
         self.scene = 0
-        self.event_list = [0,0,1,0,0,2]
+        self.event_list = [0,0,0,0,0,0, 0,0,1,0,2,0, 0,1,0,2,0,3, 0,0,0,0,0,0]
+                        
         self.teacher_present = False
         
 
     def time_passes(self):
         self.time += 1
         self.time %= 24
-        if self.event_list[self.time%6] == 1:
+        if self.event_list[self.time] == 1:
             self.teacher_appear()
-        elif self.event_list[self.time%6] == 2:
+        elif self.event_list[self.time] == 2:
             self.teacher_leave()
+        elif self.event_list[self.time] == 3:
+            self.scene=0
         self.player.time_passes()
 
     def teacher_appear(self):
