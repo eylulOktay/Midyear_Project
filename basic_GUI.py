@@ -379,8 +379,20 @@ class GameView(arcade.View):
             else:
                 self.isSleeping = 0
                 self.sleep_state = 0
+                message_box = arcade.gui.UIMessageBox(
+                width=400,
+                height=200,
+                message_text=(
+                    f"You slept __ hours! It is now ___ day!\n"
+                    f"Sleep quality at {self.game.player.stats['sleep']}%"
+                ),
+                callback=self.on_message_box_close,
+                buttons=["Ok", "Cancel"])
+                self.manager.add(message_box)
             self.sleep_state += 5
-
+    
+    def on_message_box_close(self, button_text):
+        print(f"User pressed {button_text}.")
 
     def rectangle_appear(self, rectangle):
         # print("Make rectangle")
