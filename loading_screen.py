@@ -18,13 +18,13 @@ class LoadingView(arcade.View):
         self.v_box = arcade.gui.UIBoxLayout()
 
         # Create a text label
-        ui_text_label = arcade.gui.UITextArea(text="BCA ATCS Freshman Sim", x = 200, y = 500,
+        ui_text_label = arcade.gui.UITextArea(text="BCA (ABC?) ATCS Freshman Sim", x = 200, y = 500,
                                               width=450,
                                               height=40,
                                               font_size=20,
                                               font_name="Kenney Future")
         self.manager.add(ui_text_label.with_space_around(bottom=0))
-        ui_text_label = arcade.gui.UITextArea(text="Pre-Release 1.0.0", x = 200, y = 400,
+        ui_text_label = arcade.gui.UITextArea(text="Pre-Release 2.0.1", x = 200, y = 400,
                                               width=450,
                                               height=40,
                                               font_size=20,
