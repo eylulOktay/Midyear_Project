@@ -512,6 +512,8 @@ class GameView(arcade.View):
             self.game.player.text_friends()
         elif key == 4:
             self.game.scene = 1
+       
+           
         
 
 
@@ -574,7 +576,7 @@ class GameView(arcade.View):
                 assignment = self.game.cur_assignments[i]
                 self.assign_buttons.append(self.assignments[assignment])
                 size = len(self.game.cur_assignments)
-                assignmentlabel = arcade.gui.UITextArea(text= f"{assignment} is due \n{DAYS[(self.game.day+1)%7]} at {assignment[1]}:00", x = SCREEN_WIDTH*5/9, y = SCREEN_HEIGHT/3 + 45 + (i - size/2)*-75+7*size,
+                assignmentlabel = arcade.gui.UITextArea(text= f"{assignment} is due \n{DAYS[(assignment[0]+1)%7]} at {assignment[1]}:00", x = SCREEN_WIDTH*5/9, y = SCREEN_HEIGHT/3 + 45 + (i - size/2)*-75+7*size,
                                             width=200,
                                             height=30,
                                             font_size=10,
@@ -592,6 +594,7 @@ class GameView(arcade.View):
     def do_assignment(self,event,assignment):
         self.assignments_done[assignment] = 1
         self.game.cur_assignments.remove(assignment)
+        self.game.do_assignment(assignment)
         self.act(event,5)
 
     def on_draw(self):
