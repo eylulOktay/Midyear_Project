@@ -1,3 +1,4 @@
+from sys import builtin_module_names
 import arcade
 import arcade.gui
 from player import *
@@ -13,7 +14,10 @@ SCREEN_TITLE = "NAME IN PROGRESS"
 STAT_NAMES = ["grade","sleep","happiness","work_ethic","fun"]
 DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturn"]
 # Colors for all of the times
-TIME_COLORS = [arcade.color.AERO_BLUE,arcade.color.AFRICAN_VIOLET,arcade.color.AIR_FORCE_BLUE]
+TIME_COLORS = [(15, 15, 30),(15, 15, 25),(15, 15, 25),(15, 15, 30),(25, 25, 50),(25, 25, 60),(30, 30, 70),
+                arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
+                arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
+                arcade.color.RUST,arcade.color.RUST,(50, 60, 100),(40, 40, 90),(35, 35, 80),(30, 30, 70),(25, 25, 60),(25, 25, 50),(20, 20, 35)]
 # Rectangle info
 
 class Rect:
@@ -406,7 +410,10 @@ class GameView(arcade.View):
         #     print(self.top_list)
         if self.last_time > self.game.time:
             self.game.day += 1
+        if self.last_time == 5 and self.game.time==6:
+            self.game.scene=0.5
         self.last_time = self.game.time
+
      
         self.output = f"{self.game.time:02d}:00"
 
@@ -566,9 +573,9 @@ class GameView(arcade.View):
                 assignment = self.game.cur_assignments[i]
                 self.assign_buttons.append(self.assignments[assignment])
                 size = len(self.game.cur_assignments)
-                assignmentlabel = arcade.gui.UITextArea(text= f"{assignment} is due {assignment[0]}:00", x = SCREEN_WIDTH*5/9, y = SCREEN_HEIGHT/2 + (i - size/2)*-100,
+                assignmentlabel = arcade.gui.UITextArea(text= f"{assignment} is due \n{DAYS[(self.game.day+1)%7]} at {assignment[1]}:00", x = SCREEN_WIDTH*5/9, y = SCREEN_HEIGHT/3 + 45 + (i - size/2)*-75+7*size,
                                             width=200,
-                                            height=20,
+                                            height=30,
                                             font_size=10,
                                             font_name="Kenney Future")
             
@@ -607,7 +614,7 @@ class GameView(arcade.View):
                          arcade.color.WHITE, 20,
                          anchor_x="left",
                          anchor_y="top")
-        arcade.set_background_color(TIME_COLORS[self.game.time%3])
+        arcade.set_background_color(TIME_COLORS[self.game.time])
         if self.isSleeping:
             if self.sleep_state < 300:
                 Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
