@@ -647,9 +647,12 @@ class GameView(arcade.View):
         # Clear screen
         self.clear()
         arcade.set_background_color(TIME_COLORS[self.game.time])
-        self.background = arcade.load_texture("images/ABC-TEST0.png")
-        if self.game.scene == 1:
-            arcade.draw_texture_rectangle(400, 300, 800,
+        if self.game.scene == 0 or self.game.scene == 0.5:
+            self.background = arcade.load_texture("images/bedroom.png")
+        else:
+            self.background = arcade.load_texture(BACKGROUND_IMAGES[self.game.time-7])
+
+        arcade.draw_texture_rectangle(400, 300, 800,
                                       600, self.background)
         # Draw the rectangle
         if self.game.teacher_present:
@@ -701,35 +704,35 @@ class GameView(arcade.View):
         self.manager.add(message_box)
         
 
-class Teacher(arcade.AnimatedWalkingSprite):
-    """ teacher sprite for classroom """
+# class Teacher(arcade.AnimatedWalkingSprite):
+#     """ teacher sprite for classroom """
 
-    def __init__(self, pos_x: int, pos_y: int) -> None:
-        super().__init__(center_x=pos_x, center_y=pos_y)
+#     def __init__(self, pos_x: int, pos_y: int) -> None:
+#         super().__init__(center_x=pos_x, center_y=pos_y)
 
-        # Where are the player images stored?
-        appear_texture = "images/teacher.png"
+#         # Where are the player images stored?
+#         appear_texture = "images/teacher.png"
 
-        # Load them all now
-        self.appear_texture = [
-            arcade.load_texture(texture) for texture in walking_texture_path
-        ]
+#         # Load them all now
+#         self.appear_texture = [
+#             arcade.load_texture(texture) for texture in walking_texture_path
+#         ]
 
-        self.walk_right_textures = [
-            arcade.load_texture(texture, mirrored=True)
-            for texture in walking_texture_path
-        ]
+#         self.walk_right_textures = [
+#             arcade.load_texture(texture, mirrored=True)
+#             for texture in walking_texture_path
+#         ]
 
-        self.stand_left_textures = [
-            arcade.load_texture(standing_texture_path, mirrored=True)
-        ]
-        self.stand_right_textures = [
-            arcade.load_texture(standing_texture_path)
-        ]
+#         self.stand_left_textures = [
+#             arcade.load_texture(standing_texture_path, mirrored=True)
+#         ]
+#         self.stand_right_textures = [
+#             arcade.load_texture(standing_texture_path)
+#         ]
 
-        # Set the enemy defaults
-        self.state = arcade.FACE_LEFT
-        self.change_x = -PLAYER_MOVE_SPEED // 2
+#         # Set the enemy defaults
+#         self.state = arcade.FACE_LEFT
+#         self.change_x = -PLAYER_MOVE_SPEED // 2
 
-        # Set the initial texture
-        self.texture = self.stand_left_textures[0]
+#         # Set the initial texture
+#         self.texture = self.stand_left_textures[0]
