@@ -9,6 +9,7 @@ from arcade.gui.widgets import UITextArea, UIInputText, UITexturePane
 class LoadingView(arcade.View):
 
     def __init__(self):
+        self.no = True
         self.color = [200,50,50]
         self.last_max = 0
         super().__init__()
@@ -79,9 +80,11 @@ class LoadingView(arcade.View):
         # )
     
     def on_click_start(self, event):
-        game_view = GameView()
-        self.window.show_view(game_view)
-        self.manager.remove(self.v_box)
+        if self.no:
+            game_view = GameView()
+            self.window.show_view(game_view)
+            self.manager.remove(self.v_box)
+            self.no = False
     
     def on_draw(self):
         self.clear()

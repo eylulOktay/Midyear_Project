@@ -234,6 +234,15 @@ class GameView(arcade.View):
         self.ask_for_help_button = arcade.gui.UIFlatButton(text="Ask For Help", width=200) 
         self.ask_for_help_button.on_click = lambda event : self.act(event,1)
 
+        self.test1_button = arcade.gui.UIFlatButton(text="Uh Oh!", width=200) 
+        self.test1_button.on_click = lambda event : self.act(event,6)
+
+        self.test2_button = arcade.gui.UIFlatButton(text="Time For A Test!", width=200) 
+        self.test2_button.on_click = lambda event : self.act(event,6)
+
+        self.test3_button = arcade.gui.UIFlatButton(text="Good Luck!", width=200) 
+        self.test3_button.on_click = lambda event : self.act(event,6)
+
         self.assignments = {}
         self.assignments_done = {}
 
@@ -245,43 +254,43 @@ class GameView(arcade.View):
 
         self.assignments[(0,20)] = assignment0
 
-        assignment1 = arcade.gui.UIFlatButton(text="(1,9)", width=200) 
+        assignment1 = arcade.gui.UIFlatButton(text="Memorizing Conjugations", width=200) 
         assignment1.on_click = lambda event : self.do_assignment(event,(1,9))
 
         self.assignments[(1,9)] = assignment1
 
-        assignment2 = arcade.gui.UIFlatButton(text="(1,15)", width=200) 
+        assignment2 = arcade.gui.UIFlatButton(text="Factoring Quadratics", width=200) 
         assignment2.on_click = lambda event : self.do_assignment(event,(1,15))
 
         self.assignments[(1,15)] = assignment2
 
-        assignment3 = arcade.gui.UIFlatButton(text="(2,10)", width=200) 
+        assignment3 = arcade.gui.UIFlatButton(text="Historical Investigation", width=200) 
         assignment3.on_click = lambda event : self.do_assignment(event,(2,10))
 
         self.assignments[(2,10)] = assignment3
 
-        assignment34 = arcade.gui.UIFlatButton(text="(2,14)", width=200) 
+        assignment34 = arcade.gui.UIFlatButton(text="Pearson Assigment", width=200) 
         assignment34.on_click = lambda event : self.do_assignment(event,(2,14))
 
         self.assignments[(2,14)] = assignment34
 
-        assignment4 = arcade.gui.UIFlatButton(text="(2,15)", width=200) 
+        assignment4 = arcade.gui.UIFlatButton(text="Factoring More Quadratics", width=200) 
         assignment4.on_click = lambda event : self.do_assignment(event,(2,15))
 
         self.assignments[(2,15)] = assignment4
 
-        assignmentA = arcade.gui.UIFlatButton(text="(3,14)", width=200) 
-        assignmentA.on_click = lambda event : self.do_assignment(event,(3,14))
+        assignmentA = arcade.gui.UIFlatButton(text="Analyzing A Poem", width=200) 
+        assignmentA.on_click = lambda event : self.do_assignment(event,(3,13))
 
         self.assignments[(3,14)] = assignmentA
 
-        assignment5 = arcade.gui.UIFlatButton(text="(4,8)", width=200) 
+        assignment5 = arcade.gui.UIFlatButton(text="Interest Calculator", width=200) 
         assignment5.on_click = lambda event : self.do_assignment(event,(4,8))
 
         self.assignments[(4,8)] = assignment5
 
-        assignment45 = arcade.gui.UIFlatButton(text="(4,13)", width=200) 
-        assignment45.on_click = lambda event : self.do_assignment(event,(4,13))
+        assignment45 = arcade.gui.UIFlatButton(text="Making A Map", width=200) 
+        assignment45.on_click = lambda event : self.do_assignment(event,(4,14))
 
         self.assignments[(4,13)] = assignment45
 
@@ -454,7 +463,9 @@ class GameView(arcade.View):
             self.act_buttons = []
 
         def add_buttons(event):
-            if self.game.scene == 0:
+            if ((self.game.day,self.game.time) in self.game.test_list):
+                self.act_buttons = [self.test1_button,self.test2_button, self.test3_button]
+            elif self.game.scene == 0:
                 # Bedroom?
                 self.act_buttons = [self.sleep_button,self.homework_button,self.games_button,  self.text_friends_button]
             elif self.game.scene == 0.5:
@@ -512,6 +523,8 @@ class GameView(arcade.View):
             self.game.player.text_friends()
         elif key == 4:
             self.game.scene = 1
+        elif key == 6:
+            self.game.player.take_test()
        
            
         
@@ -572,20 +585,51 @@ class GameView(arcade.View):
             
             
             self.manager.add(self.gnable)
-            for i in range(len(self.game.cur_assignments)):
-                assignment = self.game.cur_assignments[i]
-                self.assign_buttons.append(self.assignments[assignment])
-                size = len(self.game.cur_assignments)
-                assignmentlabel = arcade.gui.UITextArea(text= f"{assignment} is due \n{DAYS[(assignment[0]+1)%7]} at {assignment[1]}:00", x = SCREEN_WIDTH*5/9, y = SCREEN_HEIGHT/3 + 45 + (i - size/2)*-75+7*size,
-                                            width=200,
-                                            height=30,
-                                            font_size=10,
-                                            font_name="Kenney Future")
-            
-                self.assign_labels.append(assignmentlabel)
-                self.labels.append(assignmentlabel)
-                self.manager.add(assignmentlabel)
-                
+            if ((self.game.day,self.game.time) in self.game.test_list):
+                go_school_label = arcade.gui.UITextArea(text= f"You have to take a test now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
+                                                width=500,
+                                                height=30,
+                                                font_size=15,
+                                                font_name="Kenney Future")
+                self.assign_labels.append(go_school_label)
+                self.labels.append(go_school_label)
+                self.manager.add(go_school_label)
+            elif self.game.scene == 0.5:
+                go_school_label = arcade.gui.UITextArea(text= f"You have to go to school now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
+                                                width=500,
+                                                height=30,
+                                                font_size=15,
+                                                font_name="Kenney Future")
+                self.assign_labels.append(go_school_label)
+                self.labels.append(go_school_label)
+                self.manager.add(go_school_label)
+            else:
+                size = len(self.game.cur_assignments)  
+                if size:
+                    for i in range(len(self.game.cur_assignments)):
+                        assignment = self.game.cur_assignments[i]
+                        self.assign_buttons.append(self.assignments[assignment])
+                        
+                        assignmentlabel = arcade.gui.UITextArea(text= f"{self.assignments[assignment].text} \nis due {DAYS[(assignment[0]+1)%7]} at {assignment[1]}:00", x = SCREEN_WIDTH*1/2, y = SCREEN_HEIGHT/3 + 45 + (i - size/2)*-75+7*size,
+                                                    width=300,
+                                                    height=30,
+                                                    font_size=10,
+                                                    font_name="Kenney Future")
+                    
+                        self.assign_labels.append(assignmentlabel)
+                        self.labels.append(assignmentlabel)
+                        self.manager.add(assignmentlabel)
+                else:
+                    go_school_label = arcade.gui.UITextArea(text= f"You have no assignments! Yay!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
+                                                width=500,
+                                                height=30,
+                                                font_size=15,
+                                                font_name="Kenney Future")
+                    self.assign_labels.append(go_school_label)
+                    self.labels.append(go_school_label)
+                    self.manager.add(go_school_label)
+
+                    
 
             for i in range(len(self.assign_buttons)):
                 self.assign_buttons[i] = self.assign_buttons[i].with_space_around(bottom=10)

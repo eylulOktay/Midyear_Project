@@ -13,8 +13,8 @@ class Game():
                            [0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0]]
 
                     # Lockers, CS, Latin, WH, Lockers, Lockers, ELA, Bio, Math
-        self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,14),(4,8),(4,13)]
-        self.test_list = [(3,10),(5,9),(5,15)]
+        self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
+        self.test_list = [(2,10),(5,9),(5,15)]
         self.cur_assignments = []
                         
         self.teacher_present = False
@@ -28,7 +28,8 @@ class Game():
         if (self.day,self.time) in self.assignment_list:
             self.cur_assignments.append((self.day,self.time))
         if (self.day-2,self.time-1) in self.cur_assignments:
-            self.cur_assignments.remove((self.day-1,self.time-1))
+            
+            self.cur_assignments.remove((self.day-2,self.time-1))
             self.player.grades.append(50)
         
         if self.event_list[self.day][self.time] == 1:
@@ -96,7 +97,13 @@ class Player():
 
     def take_test(self):
         self.cap()
-        self.stats["grade"] = (self.stats["work_ethic"]+self.stats["grade"])/2
+        test_grade = self.stats["work_ethic"]
+        test_grade += int((10 - self.stats["work_ethic"]/10)*7)
+        self.cap()
+        if self.stats["sleep"] < 80:
+            test_grade -= 80 - self.stats["sleep"]
+        self.grades.append(test_grade)
+        self.grades.append(test_grade)
     
     def time_passes(self):
         self.stats["sleep"] -= 3
