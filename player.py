@@ -1,21 +1,22 @@
 class Game():
     def __init__(self, name):
         self.player = Player(name)
-        self.time = 18
+        self.time = 20
         self.day = 0
         self.scene = 0
         self.event_list = [[0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0], 
-                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,3, 0,0,0,0,0,0],
-                           [0,0,0,4,0,0, 0,0,1,0,0,2, 0,1,0,0,2,3, 0,0,0,0,0,0], 
-                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,3, 0,0,0,0,0,0],
-                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,3, 0,0,0,0,0,0], 
-                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,3, 0,0,0,0,0,0],
+                           [0,0,0,0,0,0, 0,0,1,0,0,2, 2,1,0,0,2,0, 0,0,0,0,0,0],
+                           [0,0,0,4,0,0, 0,0,1,0,0,2, 0,1,0,0,2,0, 0,0,0,0,0,0], 
+                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,0, 0,0,0,0,0,0],
+                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,0, 0,0,0,0,0,0], 
+                           [0,0,0,0,0,0, 0,0,1,0,0,2, 0,1,0,0,2,0, 0,0,0,0,0,0],
                            [0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0]]
 
                     # Lockers, CS, Latin, WH, Lockers, Lockers, ELA, Bio, Math
         self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
         self.test_list = [(2,10),(5,9),(5,15)]
         self.cur_assignments = []
+        
                         
         self.teacher_present = False
         
@@ -27,6 +28,8 @@ class Game():
         
         if (self.day,self.time) in self.assignment_list:
             self.cur_assignments.append((self.day,self.time))
+            
+
         if (self.day-2,self.time-1) in self.cur_assignments:
             
             self.cur_assignments.remove((self.day-2,self.time-1))

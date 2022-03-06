@@ -18,7 +18,7 @@ TIME_COLORS = [(15, 15, 30),(15, 15, 25),(15, 15, 25),(15, 15, 30),(25, 25, 50),
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,(50, 60, 100),(40, 40, 90),(35, 35, 80),(30, 30, 70),(25, 25, 60),(25, 25, 50),(20, 20, 35)]
-BACKGROUND_IMAGES = []
+BACKGROUND_IMAGES = ["images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png"]
 # Rectangle info
 
 class Rect:
@@ -55,6 +55,8 @@ class GameView(arcade.View):
         self.isGoing = 0
         self.stats_open = False
         self.isSleeping = False
+        self.isHoming = False
+        self.isCloning = False
         self.stats_rects = []
         self.stats_labels = []
         self.stats = self.game.player.stats
@@ -66,6 +68,8 @@ class GameView(arcade.View):
         self.assign_rects = []
         self.assign_labels = []
         self.assign_buttons = []
+        self.teacher_before = False
+        self.assignment_before = False
         # --- Required for all code that uses UI element,
         # a UIManager to handle the UI.
         
@@ -86,12 +90,12 @@ class GameView(arcade.View):
 
 
         # # Create our rectangle
-        self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/3, SCREEN_WIDTH/2, SCREEN_HEIGHT/6, arcade.color.MSU_GREEN)
-        self.time_frame = Rect(90, 50, 65, SCREEN_HEIGHT-35, arcade.color.ROYAL_PURPLE)
+        self.lower_frame = Rect(SCREEN_WIDTH, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/8, arcade.color.MSU_GREEN)
+        self.time_frame = Rect(125, 50, 75, SCREEN_HEIGHT-35, arcade.color.GOLDEN_BROWN)
         self.teacher = Rect(SCREEN_WIDTH/5, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,SCREEN_HEIGHT/2,arcade.color.RED_DEVIL)
         
         self.stats_button = arcade.gui.UIFlatButton(text="Stats",
-                                               width=200)
+                                               width=150)
         self.stats_box.add(self.stats_button)
 
         # Set background color
@@ -221,6 +225,15 @@ class GameView(arcade.View):
 
         self.go_to_school_button3 = arcade.gui.UIFlatButton(text="Seriously, Just Go", width=200) 
         self.go_to_school_button3.on_click = lambda event : self.act(event,4)
+
+        self.go_home_button1 = arcade.gui.UIFlatButton(text="Go Home", width=200) 
+        self.go_home_button1.on_click = lambda event : self.act(event,4.5)
+
+        self.go_home_button2 = arcade.gui.UIFlatButton(text="You Don't Have A Choice", width=200) 
+        self.go_home_button2.on_click = lambda event : self.act(event,4.5)
+
+        self.go_home_button3 = arcade.gui.UIFlatButton(text="Seriously, Just Go", width=200) 
+        self.go_home_button3.on_click = lambda event : self.act(event,4.5)
 
         self.schoolwork_button = arcade.gui.UIFlatButton(text="Schoolwork", width=200) 
         self.schoolwork_button.on_click = lambda event : self.act(event,1)
@@ -382,15 +395,18 @@ class GameView(arcade.View):
             if self.assign_open:
                 self.make_assign(event)
             self.stats_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.PURPLE_HEART)
+            self.stats_rect_main2 = Rect(200,40,SCREEN_WIDTH/2,SCREEN_HEIGHT*7/8, arcade.color.PURPLE_HEART)
             self.stats_rects.append(self.stats_rect_main)
             self.rectangle_appear(self.stats_rect_main)
+            self.stats_rects.append(self.stats_rect_main2)
+            self.rectangle_appear(self.stats_rect_main2)
             #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
             
             #self.okButton.on_click =  ok_button_quit 
             #self.ok_box.add(self.okButton)
             self.stats_open = True
             
-            self.stable = arcade.gui.UITextArea(text="STATS", x = 200, y = 500,
+            self.stable = arcade.gui.UITextArea(text="STATS", x = 350, y = 500,
                                             width=450,
                                             height=40,
                                             font_size=20,
@@ -422,10 +438,16 @@ class GameView(arcade.View):
             self.game.day += 1
         if self.last_time == 5 and self.game.time==6:
             self.game.scene=0.5
+        if self.last_time == 15 and self.game.time==16:
+            self.game.scene=1.5
         self.last_time = self.game.time
 
      
-        self.output = f"{self.game.time:02d}:00"
+        self.output = f"{(self.game.time-1)%12+1:02d}:00 "
+        if self.game.time >= 12:
+            self.output += "PM"
+        else:
+            self.output += "AM"
 
 
 
@@ -480,6 +502,8 @@ class GameView(arcade.View):
                 elif not self.game.teacher_present:
                     # Study, school work, play games, skip class
                     self.act_buttons = [self.study_button,self.schoolwork_button, self.games_button, self.chat_button]
+            elif self.game.scene == 1.5:
+                self.act_buttons = [self.go_home_button1,self.go_home_button2, self.go_home_button3]
             
 
         if self.act_open:
@@ -490,15 +514,18 @@ class GameView(arcade.View):
             if self.assign_open:
                 self.make_assign(event)
             self.act_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.RED_DEVIL)
+            self.act_rect_main2 = Rect(200,40,SCREEN_WIDTH/2,SCREEN_HEIGHT*7/8, arcade.color.RED_DEVIL)
             self.act_rects.append(self.act_rect_main)
             self.rectangle_appear(self.act_rect_main)
+            self.act_rects.append(self.act_rect_main2)
+            self.rectangle_appear(self.act_rect_main2)
             #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
             
             #self.okButton.on_click =  ok_button_quit 
             #self.ok_box.add(self.okButton)
             self.act_open = True
             
-            self.able = arcade.gui.UITextArea(text=" ACT ", x = SCREEN_WIDTH/2-20, y = 500,
+            self.able = arcade.gui.UITextArea(text=" ACT ", x = SCREEN_WIDTH/2-40, y = 500,
                                             width=450,
                                             height=40,
                                             font_size=20,
@@ -522,7 +549,9 @@ class GameView(arcade.View):
         elif key == 3:
             self.game.player.text_friends()
         elif key == 4:
-            self.game.scene = 1
+            self.isCloning = 1
+        elif key == 4.5:
+            self.isHoming = 1
         elif key == 6:
             self.game.player.take_test()
        
@@ -530,7 +559,7 @@ class GameView(arcade.View):
         
 
 
-        if key != 0:
+        if key not in [0,4,4.5]:
             self.game.time_passes()
         if key!= 5:
             self.make_act(event)
@@ -568,8 +597,11 @@ class GameView(arcade.View):
             if self.act_open:
                 self.make_act(event)
             self.assign_rect_main = Rect(500,400,SCREEN_WIDTH/2,SCREEN_HEIGHT/2, arcade.color.GENERIC_VIRIDIAN)
+            self.assign_rect_main2 = Rect(250,40,SCREEN_WIDTH/2,SCREEN_HEIGHT*7/8, arcade.color.GENERIC_VIRIDIAN)
             self.assign_rects.append(self.assign_rect_main)
             self.rectangle_appear(self.assign_rect_main)
+            self.assign_rects.append(self.assign_rect_main2)
+            self.rectangle_appear(self.assign_rect_main2)
             #self.okButton = arcade.gui.UIFlatButton(text = " X ", width = 50)
             
             #self.okButton.on_click =  ok_button_quit 
@@ -596,6 +628,15 @@ class GameView(arcade.View):
                 self.manager.add(go_school_label)
             elif self.game.scene == 0.5:
                 go_school_label = arcade.gui.UITextArea(text= f"You have to go to school now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
+                                                width=500,
+                                                height=30,
+                                                font_size=15,
+                                                font_name="Kenney Future")
+                self.assign_labels.append(go_school_label)
+                self.labels.append(go_school_label)
+                self.manager.add(go_school_label)
+            elif self.game.scene == 1.5:
+                go_school_label = arcade.gui.UITextArea(text= f"You have to go to home now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
                                                 width=500,
                                                 height=30,
                                                 font_size=15,
@@ -657,6 +698,9 @@ class GameView(arcade.View):
         # Draw the rectangle
         if self.game.teacher_present:
             self.teacher.draw()
+            if not self.teacher_before:
+                self.teacher_before = True
+                self.create_message(f"Here is a teacher! They will give you assignments occassionally, sometimes without telling you!!\nKeep checking your assignments so you don't miss any!")
         self.lower_frame.draw()
         
         for n in self.rect_list:
@@ -667,7 +711,7 @@ class GameView(arcade.View):
         self.time_frame.draw()
         arcade.draw_text(self.output,
                          30, SCREEN_HEIGHT-20,
-                         arcade.color.WHITE, 20,
+                         arcade.color.WHITE, 15,
                          anchor_x="left",
                          anchor_y="top")
         
@@ -683,6 +727,30 @@ class GameView(arcade.View):
                 self.isSleeping = 0
                 self.sleep_state = 0
                 self.create_message(f"You slept {self.time_slept} hours! It is now {DAYS[self.game.day]}!\nSleep quality at {self.game.player.stats['sleep']}%")
+            self.sleep_state += 5
+        if self.isHoming:
+            if self.sleep_state < 300:
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
+            elif self.sleep_state < 600:
+                self.game.time = 17
+                self.game.scene = 0
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
+            else:
+                self.isHoming = 0
+                self.sleep_state = 0
+                
+            self.sleep_state += 5
+        if self.isCloning:
+            if self.sleep_state < 300:
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
+            elif self.sleep_state < 600:
+                self.game.time = 7
+                self.game.scene = 1
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
+            else:
+                self.isCloning = 0
+                self.sleep_state = 0
+                
             self.sleep_state += 5
 
     def rectangle_appear(self, rectangle):
