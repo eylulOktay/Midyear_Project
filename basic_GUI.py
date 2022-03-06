@@ -18,7 +18,7 @@ TIME_COLORS = [(15, 15, 30),(15, 15, 25),(15, 15, 25),(15, 15, 30),(25, 25, 50),
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,(50, 60, 100),(40, 40, 90),(35, 35, 80),(30, 30, 70),(25, 25, 60),(25, 25, 50),(20, 20, 35)]
-BACKGROUND_IMAGES = ["images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png"]
+BACKGROUND_IMAGES = ["images/lockers.png","images/compsci.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png"]
 # Rectangle info
 
 class Rect:
@@ -697,7 +697,7 @@ class GameView(arcade.View):
                                       600, self.background)
         # Draw the rectangle
         if self.game.teacher_present:
-            self.teacher.draw()
+            #self.teacher.draw()
             if not self.teacher_before:
                 self.teacher_before = True
                 self.create_message(f"Here is a teacher! They will give you assignments occassionally, sometimes without telling you!!\nKeep checking your assignments so you don't miss any!")
