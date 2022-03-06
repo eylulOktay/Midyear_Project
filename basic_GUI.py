@@ -18,6 +18,7 @@ TIME_COLORS = [(15, 15, 30),(15, 15, 25),(15, 15, 25),(15, 15, 30),(25, 25, 50),
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,(50, 60, 100),(40, 40, 90),(35, 35, 80),(30, 30, 70),(25, 25, 60),(25, 25, 50),(20, 20, 35)]
+BACKGROUND_IMAGES = []
 # Rectangle info
 
 class Rect:
@@ -598,6 +599,11 @@ class GameView(arcade.View):
 
         # Clear screen
         self.clear()
+        arcade.set_background_color(TIME_COLORS[self.game.time])
+        self.background = arcade.load_texture("images/ABC-TEST0.png")
+        if self.game.scene == 1:
+            arcade.draw_texture_rectangle(400, 300, 800,
+                                      600, self.background)
         # Draw the rectangle
         if self.game.teacher_present:
             self.teacher.draw()
@@ -614,7 +620,8 @@ class GameView(arcade.View):
                          arcade.color.WHITE, 20,
                          anchor_x="left",
                          anchor_y="top")
-        arcade.set_background_color(TIME_COLORS[self.game.time])
+        
+
         if self.isSleeping:
             if self.sleep_state < 300:
                 Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,self.sleep_state)).draw()
