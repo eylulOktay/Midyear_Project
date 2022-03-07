@@ -53,6 +53,7 @@ class GameView(arcade.View):
         self.last_max = 0
         self.sleep_state = 0
         self.isGoing = 0
+        self.AHHHHH = 0
         self.notFirst = False
         self.notFirs = False
         self.stats_open = False
@@ -258,6 +259,15 @@ class GameView(arcade.View):
         self.test3_button = arcade.gui.UIFlatButton(text="Good Luck!", width=200) 
         self.test3_button.on_click = lambda event : self.act(event,6)
 
+        self.time1_button = arcade.gui.UIFlatButton(text="Time's up!", width=200) 
+        self.time1_button.on_click = lambda event : self.act(event,7)
+
+        self.time2_button = arcade.gui.UIFlatButton(text="Go to your next class!", width=200) 
+        self.time2_button.on_click = lambda event : self.act(event,7)
+
+        self.time3_button = arcade.gui.UIFlatButton(text="NOW", width=200) 
+        self.time3_button.on_click = lambda event : self.act(event,7)
+
         self.assignments = {}
         self.assignments_done = {}
 
@@ -268,6 +278,16 @@ class GameView(arcade.View):
         assignment0.on_click = lambda event : self.do_assignment(event,(0,20))
 
         self.assignments[(0,20)] = assignment0
+        
+        assignment05 = arcade.gui.UIFlatButton(text="Interest Calculator", width=200) 
+        assignment05.on_click = lambda event : self.do_assignment(event,(1,8))
+
+        self.assignments[(1,8)] = assignment05
+
+        assignment075 = arcade.gui.UIFlatButton(text="Pearson Assigment", width=200) 
+        assignment075.on_click = lambda event : self.do_assignment(event,(1,14))
+
+        self.assignments[(1,14)] = assignment075
 
         assignment1 = arcade.gui.UIFlatButton(text="Memorizing Conjugations", width=200) 
         assignment1.on_click = lambda event : self.do_assignment(event,(1,9))
@@ -440,6 +460,7 @@ class GameView(arcade.View):
             self.game.day += 1
         if self.last_time == 5 and self.game.time==6:
             self.game.scene=0.5
+            self.game.continues = 1
         if self.last_time == 15 and self.game.time==16:
             self.game.scene=1.5
         self.last_time = self.game.time
@@ -487,9 +508,9 @@ class GameView(arcade.View):
             self.act_buttons = []
 
         def add_buttons(event):
-            if ((self.game.day,self.game.time) in self.game.test_list):
-                self.act_buttons = [self.test1_button,self.test2_button, self.test3_button]
-            elif self.game.scene == 0:
+            
+            
+            if self.game.scene == 0:
                 # Bedroom?
                 self.act_buttons = [self.sleep_button,self.study_button,self.games_button,  self.text_friends_button]
             elif self.game.scene == 0.5:
@@ -498,14 +519,23 @@ class GameView(arcade.View):
                 
             elif self.game.scene == 1:
                 # In school
-                if self.game.teacher_present:
-                    # Pay attention, stare out the window, classwork, (occasionally) test
-                    self.act_buttons = [self.ask_for_help_button,self.study_button, self.games_button, self.chat_button]
-                elif not self.game.teacher_present:
-                    # Study, school work, play games, skip class
-                    self.act_buttons = [self.study_button, self.games_button, self.chat_button]
+                if self.game.continues:
+                    if self.game.teacher_present:
+                        # Pay attention, stare out the window, classwork, (occasionally) test
+                        
+                        if ((self.game.day,self.game.time) in self.game.test_list):
+                            self.act_buttons = [self.test1_button,self.test2_button, self.test3_button]
+                        else:
+                            self.act_buttons = [self.ask_for_help_button,self.study_button, self.games_button, self.chat_button]
+                    elif not self.game.teacher_present:
+                        # Study, school work, play games, skip class
+                        self.act_buttons = [self.study_button, self.games_button, self.chat_button]
+                else:
+                    self.act_buttons = [self.time1_button,self.time2_button, self.time3_button]
             elif self.game.scene == 1.5:
                 self.act_buttons = [self.go_home_button1,self.go_home_button2, self.go_home_button3]
+
+            
             
 
         if self.act_open:
@@ -546,10 +576,16 @@ class GameView(arcade.View):
             
         elif key == 1:
             self.game.player.do_work()
+            
+            self.AHHHHH = 1
         elif key == 2:
             self.game.player.play_games()
+            self.AHHHHH = 1
+            
         elif key == 3:
             self.game.player.text_friends()
+            self.AHHHHH = 1
+
         elif key == 4:
             self.isCloning = 1
         elif key == 4.5:
@@ -557,12 +593,21 @@ class GameView(arcade.View):
         elif key == 6:
             result = self.game.player.take_test()
             self.create_message(result)
+            self.AHHHHH = 1
+        
            
         
 
 
-        if key not in [0,4,4.5]:
+        if key not in [0,4,4.5] and not (self.game.scene == 1 and self.game.continues):
             self.game.time_passes()
+        
+        if self.AHHHHH:
+            self.game.continues = 0
+        else:
+            self.game.continues = 1
+        self.AHHHHH = 0
+        
         if key!= 5:
             self.make_act(event)
         else:

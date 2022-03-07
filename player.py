@@ -4,6 +4,8 @@ class Game():
         self.time = 20
         self.day = 0
         self.scene = 0
+        self.continues = 0
+
         self.event_list = [[0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0], 
                            [0,0,0,0,0,0, 0,0,1,0,0,2, 2,1,0,0,2,0, 0,0,0,0,0,0],
                            [0,0,0,4,0,0, 0,0,1,0,0,2, 0,1,0,0,2,0, 0,0,0,0,0,0], 
@@ -13,7 +15,9 @@ class Game():
                            [0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0]]
 
                     # Lockers, CS, Latin, WH, Lockers, Lockers, ELA, Bio, Math
-        self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
+        #self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
+        self.assignment_list = [(1,8),(1,14),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
+        #self.test_list = [(2,10),(5,9),(5,15)]
         self.test_list = [(1,15),(2,10),(5,9),(5,15)]
 
         # 1, 15 is for demonstration
@@ -44,7 +48,7 @@ class Game():
         elif self.event_list[self.day][self.time] == 3:
             self.scene=0
         self.player.time_passes()
-        print(self.player.grades)
+        self.continues = 1
 
     def teacher_appear(self):
         self.teacher_present = True
@@ -79,6 +83,7 @@ class Player():
         self.stats["work_ethic"] = 100
         self.stats["fun"] = 100
         self.grades = [80]
+        
         
         self.name = name.strip().capitalize()
     
