@@ -329,7 +329,7 @@ class GameView(arcade.View):
 
         self.assignments[(4,13)] = assignment45
 
-        self.create_message("Welcome to your first day at BCA!\nYou should probably get some sleep for your first day!")
+        self.create_message("Welcome to your first day at ABC!\nYou should probably get some sleep for your first day!")
 
 
         
