@@ -109,6 +109,15 @@ class Player():
             test_grade -= 80 - self.stats["sleep"]
         self.grades.append(test_grade)
         self.grades.append(test_grade)
+        if test_grade == 100:
+            return "WOW! You got a 100! Stellar job!"
+        elif test_grade >= 90:
+            return f"Great work! You got a {test_grade}!"
+        elif test_grade >= 80:
+            return f"Nice! You got a {test_grade}!"
+        else:
+            return f"Uh oh! You got a {test_grade}! Might want to study a bit more next time!"
+        
     
     def time_passes(self):
         self.stats["sleep"] -= 3

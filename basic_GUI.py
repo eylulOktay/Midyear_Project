@@ -555,8 +555,8 @@ class GameView(arcade.View):
         elif key == 4.5:
             self.isHoming = 1
         elif key == 6:
-            self.game.player.take_test()
-       
+            result = self.game.player.take_test()
+            self.create_message(result)
            
         
 
