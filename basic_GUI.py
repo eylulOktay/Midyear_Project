@@ -590,6 +590,8 @@ class GameView(arcade.View):
             self.isCloning = 1
         elif key == 4.5:
             self.isHoming = 1
+        elif key == 5:
+            self.AHHHHH = 1
         elif key == 6:
             result = self.game.player.take_test()
             self.create_message(result)
@@ -602,7 +604,7 @@ class GameView(arcade.View):
         if key not in [0,4,4.5] and not (self.game.scene == 1 and self.game.continues):
             self.game.time_passes()
         
-        if self.AHHHHH:
+        if self.AHHHHH and self.game.scene == 1:
             self.game.continues = 0
         else:
             self.game.continues = 1
@@ -675,6 +677,15 @@ class GameView(arcade.View):
                 self.manager.add(go_school_label)
             elif self.game.scene == 0.5:
                 go_school_label = arcade.gui.UITextArea(text= f"You have to go to school now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
+                                                width=500,
+                                                height=30,
+                                                font_size=15,
+                                                font_name="Kenney Future")
+                self.assign_labels.append(go_school_label)
+                self.labels.append(go_school_label)
+                self.manager.add(go_school_label)
+            elif not self.game.continues:
+                go_school_label = arcade.gui.UITextArea(text= f"You have to move classes now!", x = SCREEN_WIDTH/4, y = SCREEN_HEIGHT/2 + 50,
                                                 width=500,
                                                 height=30,
                                                 font_size=15,
