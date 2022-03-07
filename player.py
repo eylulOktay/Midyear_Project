@@ -14,7 +14,9 @@ class Game():
 
                     # Lockers, CS, Latin, WH, Lockers, Lockers, ELA, Bio, Math
         self.assignment_list = [(1,9),(1,15),(2,10),(2,14),(2,15),(3,13),(4,8),(4,14)]
-        self.test_list = [(2,10),(5,9),(5,15)]
+        self.test_list = [(1,15),(2,10),(5,9),(5,15)]
+
+        # 1, 15 is for demonstration
         self.cur_assignments = []
         
                         
@@ -76,7 +78,7 @@ class Player():
         self.stats["happiness"] = 100
         self.stats["work_ethic"] = 100
         self.stats["fun"] = 100
-        self.grades = [100]
+        self.grades = [80]
         
         self.name = name.strip().capitalize()
     

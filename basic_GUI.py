@@ -14,11 +14,11 @@ SCREEN_TITLE = "NAME IN PROGRESS"
 STAT_NAMES = ["grade","sleep","happiness","work_ethic","fun"]
 DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturn"]
 # Colors for all of the times
-TIME_COLORS = [(15, 15, 30),(15, 15, 25),(15, 15, 25),(15, 15, 30),(25, 25, 50),(25, 25, 60),(30, 30, 70),
+TIME_COLORS = [(20, 23, 45),(15, 20, 35),(20, 23, 45),(20, 23, 45),(25, 27, 65),(30, 35, 75),(32,35, 90),
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
                 arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,arcade.color.RUST,
-                arcade.color.RUST,arcade.color.RUST,(50, 60, 100),(40, 40, 90),(35, 35, 80),(30, 30, 70),(25, 25, 60),(25, 25, 50),(20, 20, 35)]
-BACKGROUND_IMAGES = ["images/lockers.png","images/compsci.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png","images/lockers.png"]
+                arcade.color.RUST,arcade.color.RUST,(40, 60, 115),(40, 50, 105),(35, 40, 95),(32, 35, 90),(25, 35, 75),(25, 27, 65),(20, 23, 45)]
+BACKGROUND_IMAGES = ["images/lockers.png","images/compsci.png","images/latin.png","images/history.png","images/lunch.png","images/lockers.png","images/ela.png","images/biology.png","images/math.png","images/lockers.png"]
 # Rectangle info
 
 class Rect:
@@ -53,6 +53,8 @@ class GameView(arcade.View):
         self.last_max = 0
         self.sleep_state = 0
         self.isGoing = 0
+        self.notFirst = False
+        self.notFirs = False
         self.stats_open = False
         self.isSleeping = False
         self.isHoming = False
@@ -489,7 +491,7 @@ class GameView(arcade.View):
                 self.act_buttons = [self.test1_button,self.test2_button, self.test3_button]
             elif self.game.scene == 0:
                 # Bedroom?
-                self.act_buttons = [self.sleep_button,self.homework_button,self.games_button,  self.text_friends_button]
+                self.act_buttons = [self.sleep_button,self.study_button,self.games_button,  self.text_friends_button]
             elif self.game.scene == 0.5:
                 #start of day (this is where things start becoming a mess)
                 self.act_buttons = [self.go_to_school_button1,self.go_to_school_button2, self.go_to_school_button3]
@@ -498,10 +500,10 @@ class GameView(arcade.View):
                 # In school
                 if self.game.teacher_present:
                     # Pay attention, stare out the window, classwork, (occasionally) test
-                    self.act_buttons = [self.ask_for_help_button,self.schoolwork_button, self.games_button, self.chat_button]
+                    self.act_buttons = [self.ask_for_help_button,self.study_button, self.games_button, self.chat_button]
                 elif not self.game.teacher_present:
                     # Study, school work, play games, skip class
-                    self.act_buttons = [self.study_button,self.schoolwork_button, self.games_button, self.chat_button]
+                    self.act_buttons = [self.study_button, self.games_button, self.chat_button]
             elif self.game.scene == 1.5:
                 self.act_buttons = [self.go_home_button1,self.go_home_button2, self.go_home_button3]
             
@@ -700,7 +702,7 @@ class GameView(arcade.View):
             #self.teacher.draw()
             if not self.teacher_before:
                 self.teacher_before = True
-                self.create_message(f"Here is a teacher! They will give you assignments occassionally, sometimes without telling you!!\nKeep checking your assignments so you don't miss any!")
+                self.create_message(f"Here is a teacher! They will give you assignments occassionally, sometimes without telling you!\nKeep checking your assignments so you don't miss any!")
         self.lower_frame.draw()
         
         for n in self.rect_list:
@@ -734,7 +736,10 @@ class GameView(arcade.View):
             elif self.sleep_state < 600:
                 self.game.time = 17
                 self.game.scene = 0
-                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw() 
+                if not self.notFirs:
+                    self.create_message(f"Congrats! You've made it through your first day at ABC!\n")
+                    self.notFirs = True          
             else:
                 self.isHoming = 0
                 self.sleep_state = 0
@@ -746,7 +751,10 @@ class GameView(arcade.View):
             elif self.sleep_state < 600:
                 self.game.time = 7
                 self.game.scene = 1
-                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()        
+                Rect(4000,4000, SCREEN_WIDTH, SCREEN_HEIGHT, (0,0,0,600-self.sleep_state)).draw()
+                if not self.notFirst:
+                    self.create_message(f"Welcome to ABC! Classes will start soon!\nEvery time you act or do an assignment, time will move forward an hour!\nMake sure to do the right things!")
+                    self.notFirst = True        
             else:
                 self.isCloning = 0
                 self.sleep_state = 0

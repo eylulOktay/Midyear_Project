@@ -27,7 +27,7 @@ class LoadingView(arcade.View):
                                               font_size=20,
                                               font_name="Kenney Future")
         self.manager.add(ui_text_label.with_space_around(bottom=0))
-        ui_text_label = arcade.gui.UITextArea(text="Pre-Release 2.0.1", x = 200, y = 400,
+        ui_text_label = arcade.gui.UITextArea(text="Pre-Release 3.7.4", x = 200, y = 400,
                                               width=450,
                                               height=40,
                                               font_size=20,
